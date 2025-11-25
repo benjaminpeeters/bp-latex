@@ -1,0 +1,100 @@
+% Template: Academic Paper/Article
+% Usage: Copy this folder to start a new paper project
+%
+% Options available:
+%   - 10pt, 11pt, 12pt: font size
+%   - draft, final: toggle draft mode with todo notes
+%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%   - singlespace, doublespace: line spacing
+%   - blind: anonymous mode for submissions
+%   - glossary, noglossary: include glossary
+%   - onlineappendix: online appendix mode
+
+\documentclass[12pt, colorlinks, doublespace]{bp-article}
+
+% Bibliography path (uses $BPBIB environment variable)
+% Uncomment and adjust if needed:
+% \newcommand{\bibpath}{$BPBIB}
+
+\begin{document}
+
+%=====================================================================
+% TITLE AND AUTHOR
+%=====================================================================
+
+\title{Your Paper Title}
+\author{Benjamin Peeters}
+\date{\today}
+
+\maketitle
+
+%=====================================================================
+% ABSTRACT
+%=====================================================================
+
+\begin{abstract}
+Your abstract goes here. This template uses the bp-article class which provides:
+\begin{itemize}
+    \item Automatic hyperlink coloring
+    \item Double spacing (configurable)
+    \item Glossary/acronym support
+    \item Todo notes in draft mode
+    \item Theorem environments
+\end{itemize}
+\end{abstract}
+
+%=====================================================================
+% MAIN CONTENT
+%=====================================================================
+
+\section{Introduction}
+
+This is a sample paper using the \texttt{bp-article} class. You can use acronyms like \gls{gdp} or \gls{imf} which are defined in the glossary.
+
+\section{Methods}
+
+You can use theorem environments:
+
+\begin{theorem}
+This is a theorem statement.
+\end{theorem}
+
+\begin{proof}
+This is the proof.
+\end{proof}
+
+\begin{assumption}
+This is an assumption.
+\end{assumption}
+
+\section{Results}
+
+Use \Cref{eq:sample} for smart cross-references:
+
+\begin{equation}
+    E = mc^2
+    \label{eq:sample}
+\end{equation}
+
+Math commands: $\R$ for real numbers, $\argmin_{x}$, $\bs{x}$ for bold symbols.
+
+\section{Conclusion}
+
+Your conclusions here.
+
+%=====================================================================
+% BIBLIOGRAPHY
+%=====================================================================
+
+% Uncomment to include bibliography:
+% \bibliographystyle{abbrvnat_custom}
+% \bibliography{bibliographie}
+
+%=====================================================================
+% GLOSSARY (if enabled)
+%=====================================================================
+
+% Uncomment to print glossary:
+% \printglossaries
+
+\end{document}

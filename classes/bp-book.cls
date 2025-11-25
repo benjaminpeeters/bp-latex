@@ -1,0 +1,178 @@
+%% bp-book.cls
+%% Document class for books
+%%
+%% Usage: \documentclass[12pt, colorlinks, boxes]{bp-book}
+%%
+%% Options:
+%%   - 10pt, 11pt, 12pt: font size (default: 12pt)
+%%   - draft, final: toggle draft mode with todo notes
+%%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%%   - singlespace, doublespace: line spacing (default: singlespace)
+%%   - glossary, noglossary: include glossary (default: glossary)
+%%   - boxes: enable tcolorbox environments (boxcasestudy, boxconcept, boxwarning)
+%%
+%% Copyright (C) 2025 Benjamin Peeters
+%% Licensed under AGPL-3.0
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{bp-book}[2025/01/01 Benjamin Peeters book class]
+
+%=====================================================================
+% OPTION HANDLING
+%=====================================================================
+
+% Boolean flags
+\newif\ifbpbook@draft      \bpbook@draftfalse
+\newif\ifbpbook@colorlinks \bpbook@colorlinkstrue
+\newif\ifbpbook@doublespace\bpbook@doublespacefalse  % Default single for books
+\newif\ifbpbook@glossary   \bpbook@glossarytrue
+\newif\ifbpbook@boxes      \bpbook@boxesfalse
+
+% Font size (default 12pt)
+\newcommand{\bpbook@fontsize}{12pt}
+
+% Declare options
+\DeclareOption{10pt}{\renewcommand{\bpbook@fontsize}{10pt}}
+\DeclareOption{11pt}{\renewcommand{\bpbook@fontsize}{11pt}}
+\DeclareOption{12pt}{\renewcommand{\bpbook@fontsize}{12pt}}
+
+\DeclareOption{draft}{\bpbook@drafttrue}
+\DeclareOption{final}{\bpbook@draftfalse}
+\DeclareOption{colorlinks}{\bpbook@colorlinkstrue}
+\DeclareOption{nocolorlinks}{\bpbook@colorlinksfalse}
+\DeclareOption{singlespace}{\bpbook@doublespacefalse}
+\DeclareOption{doublespace}{\bpbook@doublespacetrue}
+\DeclareOption{glossary}{\bpbook@glossarytrue}
+\DeclareOption{noglossary}{\bpbook@glossaryfalse}
+\DeclareOption{boxes}{\bpbook@boxestrue}
+
+% Pass unknown options to book class
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+
+\ProcessOptions\relax
+
+%=====================================================================
+% LOAD BASE CLASS
+%=====================================================================
+
+\LoadClass[\bpbook@fontsize]{book}
+
+%=====================================================================
+% LOAD INTERNAL PACKAGES WITH OPTIONS
+%=====================================================================
+
+% Build option string for bp-core
+\ifbpbook@draft
+    \PassOptionsToPackage{draft}{bp-core}
+\else
+    \PassOptionsToPackage{final}{bp-core}
+\fi
+
+\ifbpbook@colorlinks
+    \PassOptionsToPackage{colorlinks}{bp-core}
+\else
+    \PassOptionsToPackage{nocolorlinks}{bp-core}
+\fi
+
+% Load packages
+\RequirePackage{bp-core}
+\RequirePackage{bp-common}
+
+\ifbpbook@glossary
+    \RequirePackage{bp-glossary}
+\fi
+
+%=====================================================================
+% PAGE LAYOUT
+%=====================================================================
+
+\RequirePackage[left=20mm,right=20mm,top=25mm,bottom=25mm]{geometry}
+
+%=====================================================================
+% LINE SPACING
+%=====================================================================
+
+\RequirePackage{setspace}
+\ifbpbook@doublespace
+    \doublespacing
+\else
+    \singlespacing
+\fi
+
+%=====================================================================
+% CHAPTER STYLING
+%=====================================================================
+
+\RequirePackage[raggedright]{titlesec}
+\newcommand{\hsp}{\hspace{10pt}}
+\titleformat{\chapter}[hang]{\LARGE\bfseries}{\thechapter\hsp\textcolor{gray5}{$|$}\hsp}{0pt}{\LARGE\bfseries}
+
+%=====================================================================
+% TOC CONFIGURATION
+%=====================================================================
+
+\RequirePackage{tocbibind}
+
+%=====================================================================
+% TCOLORBOX ENVIRONMENTS (OPTIONAL)
+%=====================================================================
+
+\ifbpbook@boxes
+    \RequirePackage[many]{tcolorbox}
+
+    % Case study box (green)
+    \newtcolorbox[auto counter,number within=chapter, list inside=casestudy]{boxcasestudy}[2][]{%
+        breakable,
+        skin=bicolor jigsaw,
+        colbacklower=black!6,
+        colback=white,
+        colframe=mygreen!60!black,
+        fonttitle=\bfseries,
+        center title,
+        colbacktitle=mygreen!10!white,
+        coltitle=black,
+        boxrule=1.2pt,
+        titlerule=0.0pt,
+        arc=0.5mm,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        subtitle style={boxrule=0.0pt, halign=center},
+        lines before break=20,
+        title=Case study~\thetcbcounter: #2,#1}
+
+    % Technical note box (blue)
+    \newtcolorbox[auto counter,number within=chapter]{boxconcept}[2][]{%
+        breakable,
+        skin=bicolor jigsaw,
+        colbacklower=black!6,
+        colback=white,
+        colframe=myblue!60!black,
+        fonttitle=\bfseries,
+        center title,
+        colbacktitle=myblue!10!white,
+        coltitle=black,
+        boxrule=1.2pt,
+        titlerule=0.0pt,
+        arc=0.5mm,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        subtitle style={boxrule=0.0pt, halign=center},
+        lines before break=20,
+        title=Technical Note~\thetcbcounter: #2,#1}
+
+    % Warning box (red)
+    \newtcolorbox{boxwarning}[2][]{%
+        colframe=myred!75!black,
+        colback=myred!5!white,
+        fonttitle=\bfseries,
+        center title,
+        boxrule=0.9pt,
+        titlerule=0.0pt,
+        arc=0.5mm,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        lines before break=20,
+        title=Warning: #2,#1}
+\fi
+
+\endinput

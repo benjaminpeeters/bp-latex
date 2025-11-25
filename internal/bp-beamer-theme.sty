@@ -1,0 +1,104 @@
+%% bp-beamer-theme.sty
+%% Beamer theme configuration
+%% Contains: theme setup, colors, frame settings
+%%
+%% Copyright (C) 2025 Benjamin Peeters
+%% Licensed under AGPL-3.0
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-beamer-theme}[2025/01/01 Benjamin Peeters beamer theme]
+
+\RequirePackage{bp-core}
+
+%=====================================================================
+% BEAMER CLASS CHECK
+%=====================================================================
+
+\@ifclassloaded{beamer}{}{%
+    \PackageError{bp-beamer-theme}{This package requires the beamer class}{}
+}
+
+%=====================================================================
+% ADDITIONAL PACKAGES
+%=====================================================================
+
+\RequirePackage{ragged2e}
+
+%=====================================================================
+% THEME OPTIONS
+%=====================================================================
+
+% Default foreground color (can be overridden by class)
+\providecommand{\bp@fgcolor}{dark_blue}
+
+%=====================================================================
+% THEME SETUP
+%=====================================================================
+
+\usetheme{Singapore}
+\useinnertheme{circles}
+
+%=====================================================================
+% COLOR SCHEME
+%=====================================================================
+
+\setbeamercolor{normal text}{fg=\bp@fgcolor,bg=white}
+\setbeamercolor{titlelike}{fg=\bp@fgcolor}
+\setbeamercolor{section in toc}{fg=\bp@fgcolor}
+\setbeamercolor{item projected}{use=item,fg=white,bg=\bp@fgcolor}
+\setbeamercolor{section in head/foot}{fg=white, bg=white}
+
+%=====================================================================
+% FRAME SETTINGS
+%=====================================================================
+
+\setcounter{tocdepth}{2}
+\setbeamertemplate{footline}[frame number]
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{caption}[numbered]
+
+% Overlay behavior
+\setbeamercovered{invisible}
+
+%=====================================================================
+% TOC SETTINGS
+%=====================================================================
+
+% Remove page numbers from TOC when using addcontentsline
+\let\Contentsline\contentsline
+\renewcommand\contentsline[3]{\Contentsline{#1}{#2}{}}
+
+%=====================================================================
+% MATH PACKAGES (BEAMER-COMPATIBLE SUBSET)
+%=====================================================================
+
+\RequirePackage{amsmath,amssymb,amsfonts}
+\RequirePackage{mathrsfs}
+
+% Basic math commands
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\argmin}{\arg\!\min}
+\newcommand{\argmax}{\arg\!\max}
+\newcommand{\R}{\mathbb{R}}
+
+%=====================================================================
+% HYPERLINK COLORS
+%=====================================================================
+
+\ifbp@colorlinks
+    \hypersetup{
+        colorlinks,
+        linkcolor={myred},
+        citecolor={myblue},
+        urlcolor={url_blue}
+    }
+\else
+    \hypersetup{
+        colorlinks,
+        linkcolor={black},
+        citecolor={black},
+        urlcolor={black}
+    }
+\fi
+
+\endinput

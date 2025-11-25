@@ -1,0 +1,42 @@
+%% bp-glossary.sty
+%% Glossary and acronym setup
+%% One source of truth for all acronym definitions
+%%
+%% Copyright (C) 2025 Benjamin Peeters
+%% Licensed under AGPL-3.0
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-glossary}[2025/01/01 Benjamin Peeters glossary setup]
+
+\RequirePackage{bp-core}
+
+%=====================================================================
+% GLOSSARY SETUP
+%=====================================================================
+
+% Detect document class and configure accordingly
+\makeatletter
+\@ifclassloaded{book}{%
+    % For book class: section=chapter
+    \RequirePackage[acronym, toc=false, numberedsection, section=chapter]{glossaries}
+}{%
+    \@ifclassloaded{bp-book}{%
+        % For bp-book class: section=chapter
+        \RequirePackage[acronym, toc=false, numberedsection, section=chapter]{glossaries}
+    }{%
+        % For article and other classes: section=section
+        \RequirePackage[acronym, toc, numberedsection, section=section]{glossaries}
+    }%
+}
+\makeatother
+
+\glsenablehyper
+\makeglossaries
+
+%=====================================================================
+% LOAD ACRONYM DEFINITIONS
+%=====================================================================
+
+\input{bp-glossary-entries}
+
+\endinput

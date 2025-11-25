@@ -1,0 +1,168 @@
+% Template: Book
+% Usage: Copy this folder to start a new book project
+%
+% Options available:
+%   - 10pt, 11pt, 12pt: font size
+%   - draft, final: toggle draft mode with todo notes
+%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%   - singlespace, doublespace: line spacing (default: singlespace)
+%   - glossary, noglossary: include glossary
+%   - boxes: enable tcolorbox environments (boxcasestudy, boxconcept, boxwarning)
+
+\documentclass[12pt, colorlinks, glossary, boxes]{bp-book}
+
+\begin{document}
+
+%=====================================================================
+% FRONT MATTER
+%=====================================================================
+
+\frontmatter
+
+\title{Your Book Title}
+\author{Benjamin Peeters}
+\date{\today}
+
+\maketitle
+
+%---------------------------------------------------------------------
+% Abstract/Preface
+%---------------------------------------------------------------------
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This is the preface to your book. It explains the motivation and scope.
+
+%---------------------------------------------------------------------
+% Table of Contents
+%---------------------------------------------------------------------
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+%=====================================================================
+% MAIN MATTER
+%=====================================================================
+
+\mainmatter
+
+%---------------------------------------------------------------------
+% Chapter 1
+%---------------------------------------------------------------------
+
+\chapter{Introduction}
+\label{chap:intro}
+
+This is a sample book using the \texttt{bp-book} class. You can use acronyms like \gls{gdp} or \gls{imf}.
+
+\section{Background}
+
+Some background information here.
+
+\section{Objectives}
+
+The objectives of this book are:
+\begin{enumerate}
+    \item First objective
+    \item Second objective
+    \item Third objective
+\end{enumerate}
+
+%---------------------------------------------------------------------
+% Chapter 2
+%---------------------------------------------------------------------
+
+\chapter{Theory}
+\label{chap:theory}
+
+\section{Theoretical Framework}
+
+You can use theorem environments:
+
+\begin{theorem}
+This is a theorem statement.
+\end{theorem}
+
+\begin{definition}
+This is a definition.
+\end{definition}
+
+\section{Case Studies and Concepts}
+
+With the \texttt{boxes} option, you get special tcolorbox environments:
+
+\begin{boxcasestudy}{Sample Case Study}
+    This is a case study box. It's numbered within chapters and has a green frame.
+
+    Use this for detailed examples or country studies.
+\end{boxcasestudy}
+
+\begin{boxconcept}{Sample Technical Note}
+    This is a concept/technical note box. It has a blue frame.
+
+    Use this for technical explanations or clarifications.
+\end{boxconcept}
+
+\begin{boxwarning}{Important Warning}
+    This is a warning box with a red frame.
+
+    Use this for important caveats or notes of caution.
+\end{boxwarning}
+
+%---------------------------------------------------------------------
+% Chapter 3
+%---------------------------------------------------------------------
+
+\chapter{Analysis}
+\label{chap:analysis}
+
+Use \Cref{chap:intro} for smart cross-references.
+
+Math: $\R$, $\argmin$, $\bs{x}$
+
+\begin{equation}
+    E = mc^2
+    \label{eq:energy}
+\end{equation}
+
+See \Cref{eq:energy} for the equation reference.
+
+%---------------------------------------------------------------------
+% Chapter 4
+%---------------------------------------------------------------------
+
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+Your conclusions here.
+
+%=====================================================================
+% BACK MATTER
+%=====================================================================
+
+\backmatter
+
+%---------------------------------------------------------------------
+% Bibliography
+%---------------------------------------------------------------------
+
+% \bibliographystyle{abbrvnat_custom}
+% \bibliography{bibliographie}
+
+%---------------------------------------------------------------------
+% Glossary
+%---------------------------------------------------------------------
+
+% \printglossaries
+
+%---------------------------------------------------------------------
+% Appendices (optional)
+%---------------------------------------------------------------------
+
+% \appendix
+% \chapter{Additional Data}
+% Appendix content here.
+
+\end{document}

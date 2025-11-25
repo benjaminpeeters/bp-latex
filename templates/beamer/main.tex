@@ -1,0 +1,105 @@
+% Template: Presentation Slides
+% Usage: Copy this folder to start a new presentation project
+%
+% Options available:
+%   - aspectratio=169, aspectratio=43: slide aspect ratio (default: 169)
+%   - draft, final: toggle draft mode
+%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+
+\documentclass[aspectratio=169, colorlinks]{bp-beamer}
+
+\title{Your Presentation Title}
+\author{Benjamin Peeters}
+\institute{Your Institution}
+\date{\today}
+
+\begin{document}
+
+%=====================================================================
+% TITLE FRAME
+%=====================================================================
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+%=====================================================================
+% OUTLINE
+%=====================================================================
+
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+%=====================================================================
+% CONTENT
+%=====================================================================
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+    This is a sample presentation using the \texttt{bp-beamer} class.
+
+    \begin{itemize}
+        \item First point
+        \item Second point
+        \item Third point
+    \end{itemize}
+\end{frame}
+
+\section{Methods}
+
+\begin{frame}{Methods}
+    You can use math:
+    \begin{equation}
+        E = mc^2
+    \end{equation}
+
+    And math commands: $\R$, $\argmin$, $\bs{x}$
+\end{frame}
+
+\begin{frame}{Two Columns}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Left column content
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            Right column content
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Results}
+
+\begin{frame}{Results}
+    \begin{enumerate}
+        \item First result
+        \item Second result
+        \item Third result
+    \end{enumerate}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item Summary point 1
+        \item Summary point 2
+        \item Summary point 3
+    \end{itemize}
+
+    \vspace{1em}
+    \centering
+    \textbf{Thank you!}
+\end{frame}
+
+%=====================================================================
+% REFERENCES (OPTIONAL)
+%=====================================================================
+
+% \begin{frame}[allowframebreaks]{References}
+%     \bibliographystyle{abbrvnat_custom}
+%     \bibliography{bibliographie}
+% \end{frame}
+
+\end{document}
