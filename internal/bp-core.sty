@@ -12,21 +12,28 @@
 % BOOLEAN FLAGS
 %=====================================================================
 
+% Color mode flags (mutually exclusive: bw, colorlinks, or nocolorlinks)
+\newif\ifbp@bw         \bp@bwfalse           % B&W links (images unchanged)
+\newif\ifbp@colorlinks \bp@colorlinkstrue    % Colored links (default)
+\newif\ifbp@colorsimple\bp@colorsimplefalse
+
+% Draft mode flag (independent of colors)
 \newif\ifbp@draft      \bp@draftfalse
 \newif\ifbp@todo       \bp@todofalse
 \newif\ifbp@blind      \bp@blindfalse
-\newif\ifbp@colorlinks \bp@colorlinkstrue
-\newif\ifbp@colorsimple\bp@colorsimplefalse
 
-% Package options
+% Package options - Color modes
+\DeclareOption{bw}{\bp@bwtrue\bp@colorlinksfalse}
+\DeclareOption{colorlinks}{\bp@colorlinkstrue\bp@bwfalse}
+\DeclareOption{nocolorlinks}{\bp@colorlinksfalse\bp@bwfalse}
+\DeclareOption{colorsimple}{\bp@colorsimpletrue}
+
+% Package options - Draft/Final modes
 \DeclareOption{draft}{\bp@drafttrue\bp@todotrue}
 \DeclareOption{final}{\bp@draftfalse\bp@todofalse}
 \DeclareOption{todo}{\bp@todotrue}
 \DeclareOption{notodo}{\bp@todofalse}
 \DeclareOption{blind}{\bp@blindtrue}
-\DeclareOption{colorlinks}{\bp@colorlinkstrue}
-\DeclareOption{nocolorlinks}{\bp@colorlinksfalse}
-\DeclareOption{colorsimple}{\bp@colorsimpletrue}
 \ProcessOptions\relax
 
 %=====================================================================
@@ -77,5 +84,6 @@
 \newcommand{\ifbptodo}{\ifbp@todo}
 \newcommand{\ifbpblind}{\ifbp@blind}
 \newcommand{\ifbpcolorlinks}{\ifbp@colorlinks}
+\newcommand{\ifbpbw}{\ifbp@bw}
 
 \endinput

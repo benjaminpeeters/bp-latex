@@ -94,22 +94,27 @@
 %=====================================================================
 
 \RequirePackage{hyperref}
+\hypersetup{final}  % Override global 'draft' option that disables colored links
 
 % Apply color settings based on bp-core flags
+% Note: colorlinks and bw/nocolorlinks are mutually exclusive
+% - colorlinks: colored links (red/blue/teal)
+% - nocolorlinks or bw: black links
 \ifbp@colorlinks
     \ifbp@colorsimple
-        % Default hyperlink setup
+        % Default hyperlink setup (let hyperref choose)
     \else
         \hypersetup{
-            colorlinks,
+            colorlinks=true,
             linkcolor={myred},
             citecolor={myblue},
             urlcolor={url_blue}
         }
     \fi
 \else
+    % Both bw and nocolorlinks result in black links
     \hypersetup{
-        colorlinks,
+        colorlinks=true,
         linkcolor={black},
         citecolor={black},
         urlcolor={black}
@@ -151,6 +156,17 @@
     \newcommand{\unsure}[1]{\ignorespaces}
     \newcommand{\change}[1]{\ignorespaces}
     \newcommand{\comment}[1]{\ignorespaces}
+\fi
+
+%=====================================================================
+% DRAFT WATERMARK
+%=====================================================================
+
+\ifbp@draft
+    \RequirePackage{draftwatermark}
+    \SetWatermarkText{DRAFT}
+    \SetWatermarkScale{0.5}
+    \SetWatermarkColor[gray]{0.9}
 \fi
 
 %=====================================================================

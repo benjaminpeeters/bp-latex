@@ -5,8 +5,8 @@
 %%
 %% Options:
 %%   - 10pt, 11pt, 12pt: font size (default: 12pt)
-%%   - draft, final: toggle draft mode with todo notes
-%%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%%   - draft, final: toggle draft mode (watermark + todo notes)
+%%   - bw, colorlinks, nocolorlinks: link color mode (default: colorlinks)
 %%   - singlespace, doublespace: line spacing (default: singlespace)
 %%   - glossary, noglossary: include glossary (default: glossary)
 %%   - boxes: enable tcolorbox environments (boxcasestudy, boxconcept, boxwarning)
@@ -23,6 +23,7 @@
 
 % Boolean flags
 \newif\ifbpbook@draft      \bpbook@draftfalse
+\newif\ifbpbook@bw         \bpbook@bwfalse
 \newif\ifbpbook@colorlinks \bpbook@colorlinkstrue
 \newif\ifbpbook@doublespace\bpbook@doublespacefalse  % Default single for books
 \newif\ifbpbook@glossary   \bpbook@glossarytrue
@@ -38,8 +39,9 @@
 
 \DeclareOption{draft}{\bpbook@drafttrue}
 \DeclareOption{final}{\bpbook@draftfalse}
-\DeclareOption{colorlinks}{\bpbook@colorlinkstrue}
-\DeclareOption{nocolorlinks}{\bpbook@colorlinksfalse}
+\DeclareOption{bw}{\bpbook@bwtrue\bpbook@colorlinksfalse}
+\DeclareOption{colorlinks}{\bpbook@colorlinkstrue\bpbook@bwfalse}
+\DeclareOption{nocolorlinks}{\bpbook@colorlinksfalse\bpbook@bwfalse}
 \DeclareOption{singlespace}{\bpbook@doublespacefalse}
 \DeclareOption{doublespace}{\bpbook@doublespacetrue}
 \DeclareOption{glossary}{\bpbook@glossarytrue}
@@ -68,10 +70,14 @@
     \PassOptionsToPackage{final}{bp-core}
 \fi
 
-\ifbpbook@colorlinks
-    \PassOptionsToPackage{colorlinks}{bp-core}
+\ifbpbook@bw
+    \PassOptionsToPackage{bw}{bp-core}
 \else
-    \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \ifbpbook@colorlinks
+        \PassOptionsToPackage{colorlinks}{bp-core}
+    \else
+        \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \fi
 \fi
 
 % Load packages

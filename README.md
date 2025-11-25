@@ -23,6 +23,27 @@ The install script:
 1. Creates symlinks in ~/texmf (changes reflect immediately)
 2. Sets up the $BPBIB environment variable for bibliography
 
+## Options Reference
+
+All document classes share two independent option groups:
+
+### Color Options (mutually exclusive)
+
+| Option | Links | Images | Use Case |
+|--------|-------|--------|----------|
+| `colorlinks` | Colored (red/blue/teal) | Original | Screen reading (default) |
+| `nocolorlinks` | Black | Original | Print with colored figures |
+| `bw` | Black | Original | Full print version |
+
+### Draft/Final Options (independent of colors)
+
+| Option | Effect | Use Case |
+|--------|--------|----------|
+| `final` | No watermark, todo notes hidden | Publication (default) |
+| `draft` | DRAFT watermark, todo notes visible | Work in progress |
+
+These options are independent: you can combine them freely (e.g., `draft, colorlinks` or `final, bw`).
+
 ## Usage
 
 ### Paper/Article
@@ -37,7 +58,14 @@ The install script:
 \end{document}
 ```
 
-Options: 10pt/11pt/12pt, draft/final, colorlinks/nocolorlinks, singlespace/doublespace, blind, glossary/noglossary, onlineappendix
+Options:
+- Font size: `10pt`, `11pt`, `12pt` (default: 12pt)
+- Draft mode: `draft`, `final` (default: final)
+- Colors: `bw`, `colorlinks`, `nocolorlinks` (default: colorlinks)
+- Spacing: `singlespace`, `doublespace` (default: doublespace)
+- Anonymization: `blind`
+- Glossary: `glossary`, `noglossary` (default: glossary)
+- Supplement mode: `onlineappendix`
 
 ### Presentation
 
@@ -50,7 +78,11 @@ Options: 10pt/11pt/12pt, draft/final, colorlinks/nocolorlinks, singlespace/doubl
 \end{document}
 ```
 
-Options: aspectratio=169/43, draft/final, colorlinks/nocolorlinks
+Options:
+- Aspect ratio: `aspectratio=169`, `aspectratio=43` (default: 169)
+- Draft mode: `draft`, `final` (default: final)
+- Colors: `bw`, `colorlinks`, `nocolorlinks` (default: colorlinks)
+- Theme: `theme=singapore`, `theme=madrid`, etc. (default: singapore)
 
 ### Book
 
@@ -65,7 +97,13 @@ Options: aspectratio=169/43, draft/final, colorlinks/nocolorlinks
 \end{document}
 ```
 
-Options: 10pt/11pt/12pt, draft/final, colorlinks/nocolorlinks, singlespace/doublespace, glossary/noglossary, boxes
+Options:
+- Font size: `10pt`, `11pt`, `12pt` (default: 12pt)
+- Draft mode: `draft`, `final` (default: final)
+- Colors: `bw`, `colorlinks`, `nocolorlinks` (default: colorlinks)
+- Spacing: `singlespace`, `doublespace` (default: singlespace)
+- Glossary: `glossary`, `noglossary` (default: glossary)
+- Boxes: `boxes`
 
 The `boxes` option enables special tcolorbox environments:
 - `\begin{boxcasestudy}{Title}...\end{boxcasestudy}` (green, numbered)
@@ -82,7 +120,10 @@ The `boxes` option enables special tcolorbox environments:
 \end{document}
 ```
 
-Options: 10pt/11pt, draft/final, colorlinks/nocolorlinks
+Options:
+- Font size: `10pt`, `11pt`, `12pt` (default: 11pt)
+- Draft mode: `draft`, `final` (default: final)
+- Colors: `bw`, `colorlinks`, `nocolorlinks` (default: colorlinks)
 
 ## Available Features
 

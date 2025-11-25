@@ -5,8 +5,8 @@
 %%
 %% Options:
 %%   - aspectratio=169, aspectratio=43: slide aspect ratio (default: 169)
-%%   - draft, final: toggle draft mode
-%%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%%   - draft, final: toggle draft mode (watermark + todo notes)
+%%   - bw, colorlinks, nocolorlinks: link color mode (default: colorlinks)
 %%   - theme=singapore, theme=madrid, etc.: beamer theme (default: singapore)
 %%
 %% Copyright (C) 2025 Benjamin Peeters
@@ -21,6 +21,7 @@
 
 % Boolean flags
 \newif\ifbpbeamer@draft      \bpbeamer@draftfalse
+\newif\ifbpbeamer@bw         \bpbeamer@bwfalse
 \newif\ifbpbeamer@colorlinks \bpbeamer@colorlinkstrue
 
 % Aspect ratio (default 16:9)
@@ -32,8 +33,9 @@
 % Declare options
 \DeclareOption{draft}{\bpbeamer@drafttrue}
 \DeclareOption{final}{\bpbeamer@draftfalse}
-\DeclareOption{colorlinks}{\bpbeamer@colorlinkstrue}
-\DeclareOption{nocolorlinks}{\bpbeamer@colorlinksfalse}
+\DeclareOption{bw}{\bpbeamer@bwtrue\bpbeamer@colorlinksfalse}
+\DeclareOption{colorlinks}{\bpbeamer@colorlinkstrue\bpbeamer@bwfalse}
+\DeclareOption{nocolorlinks}{\bpbeamer@colorlinksfalse\bpbeamer@bwfalse}
 
 % Handle key=value options
 \RequirePackage{kvoptions}
@@ -64,10 +66,14 @@
     \PassOptionsToPackage{final}{bp-core}
 \fi
 
-\ifbpbeamer@colorlinks
-    \PassOptionsToPackage{colorlinks}{bp-core}
+\ifbpbeamer@bw
+    \PassOptionsToPackage{bw}{bp-core}
 \else
-    \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \ifbpbeamer@colorlinks
+        \PassOptionsToPackage{colorlinks}{bp-core}
+    \else
+        \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \fi
 \fi
 
 % Load packages (NOT bp-common or bp-glossary - incompatible with beamer)

@@ -5,9 +5,9 @@
 %% Usage: \documentclass[11pt]{bp-note}
 %%
 %% Options:
-%%   - 10pt, 11pt: font size (default: 11pt)
-%%   - draft, final: toggle draft mode
-%%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%%   - 10pt, 11pt, 12pt: font size (default: 11pt)
+%%   - draft, final: toggle draft mode (watermark + todo notes)
+%%   - bw, colorlinks, nocolorlinks: link color mode (default: colorlinks)
 %%
 %% Copyright (C) 2025 Benjamin Peeters
 %% Licensed under AGPL-3.0
@@ -21,6 +21,7 @@
 
 % Boolean flags
 \newif\ifbpnote@draft      \bpnote@draftfalse
+\newif\ifbpnote@bw         \bpnote@bwfalse
 \newif\ifbpnote@colorlinks \bpnote@colorlinkstrue
 
 % Font size (default 11pt for notes)
@@ -33,8 +34,9 @@
 
 \DeclareOption{draft}{\bpnote@drafttrue}
 \DeclareOption{final}{\bpnote@draftfalse}
-\DeclareOption{colorlinks}{\bpnote@colorlinkstrue}
-\DeclareOption{nocolorlinks}{\bpnote@colorlinksfalse}
+\DeclareOption{bw}{\bpnote@bwtrue\bpnote@colorlinksfalse}
+\DeclareOption{colorlinks}{\bpnote@colorlinkstrue\bpnote@bwfalse}
+\DeclareOption{nocolorlinks}{\bpnote@colorlinksfalse\bpnote@bwfalse}
 
 % Pass unknown options to article class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -58,10 +60,14 @@
     \PassOptionsToPackage{final}{bp-core}
 \fi
 
-\ifbpnote@colorlinks
-    \PassOptionsToPackage{colorlinks}{bp-core}
+\ifbpnote@bw
+    \PassOptionsToPackage{bw}{bp-core}
 \else
-    \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \ifbpnote@colorlinks
+        \PassOptionsToPackage{colorlinks}{bp-core}
+    \else
+        \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \fi
 \fi
 
 % Load packages (minimal set for fast compilation)

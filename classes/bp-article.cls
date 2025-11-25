@@ -5,8 +5,8 @@
 %%
 %% Options:
 %%   - 10pt, 11pt, 12pt: font size (default: 12pt)
-%%   - draft, final: toggle draft mode with todo notes
-%%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%%   - draft, final: toggle draft mode (watermark + todo notes)
+%%   - bw, colorlinks, nocolorlinks: link color mode (default: colorlinks)
 %%   - singlespace, doublespace: line spacing (default: doublespace)
 %%   - blind: anonymous mode for submissions
 %%   - glossary, noglossary: include glossary (default: glossary)
@@ -24,6 +24,7 @@
 
 % Boolean flags
 \newif\ifbparticle@draft      \bparticle@draftfalse
+\newif\ifbparticle@bw         \bparticle@bwfalse
 \newif\ifbparticle@colorlinks \bparticle@colorlinkstrue
 \newif\ifbparticle@doublespace\bparticle@doublespacetrue
 \newif\ifbparticle@blind      \bparticle@blindfalse
@@ -40,8 +41,9 @@
 
 \DeclareOption{draft}{\bparticle@drafttrue}
 \DeclareOption{final}{\bparticle@draftfalse}
-\DeclareOption{colorlinks}{\bparticle@colorlinkstrue}
-\DeclareOption{nocolorlinks}{\bparticle@colorlinksfalse}
+\DeclareOption{bw}{\bparticle@bwtrue\bparticle@colorlinksfalse}
+\DeclareOption{colorlinks}{\bparticle@colorlinkstrue\bparticle@bwfalse}
+\DeclareOption{nocolorlinks}{\bparticle@colorlinksfalse\bparticle@bwfalse}
 \DeclareOption{singlespace}{\bparticle@doublespacefalse}
 \DeclareOption{doublespace}{\bparticle@doublespacetrue}
 \DeclareOption{blind}{\bparticle@blindtrue}
@@ -71,10 +73,14 @@
     \PassOptionsToPackage{final}{bp-core}
 \fi
 
-\ifbparticle@colorlinks
-    \PassOptionsToPackage{colorlinks}{bp-core}
+\ifbparticle@bw
+    \PassOptionsToPackage{bw}{bp-core}
 \else
-    \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \ifbparticle@colorlinks
+        \PassOptionsToPackage{colorlinks}{bp-core}
+    \else
+        \PassOptionsToPackage{nocolorlinks}{bp-core}
+    \fi
 \fi
 
 \ifbparticle@blind
@@ -138,7 +144,7 @@
     \AtBeginDocument{%
         \pagestyle{fancy}
         \fancyhf{}
-        \fancyhead[R]{Online appendix}
+        \fancyhead[R]{Supplement}
         \fancyfoot[C]{\thepage}
         \appendix
         \pagenumbering{roman}
@@ -153,6 +159,27 @@
     % Redefine \author to hide author info
     \renewcommand{\author}[1]{\gdef\@author{[Author information removed for blind review]}}
     % Can add more anonymization here
+\fi
+
+%=====================================================================
+% DRAFT MODE NOTICE
+%=====================================================================
+
+\ifbparticle@draft
+    \AtBeginDocument{%
+        \let\bp@oldmaketitle\maketitle
+        \renewcommand{\maketitle}{%
+            \bp@oldmaketitle
+            \begin{center}
+            \fbox{\parbox{0.8\textwidth}{%
+                \centering
+                \textsc{Draft Version} -- Generated: \today\ at \currenttime\\[0.5em]
+                \small This document is a working draft and should not be circulated or cited.
+            }}
+            \end{center}
+            \vspace{1em}
+        }%
+    }
 \fi
 
 \endinput
