@@ -1,6 +1,6 @@
 # bp-latex
 
-Personal LaTeX document classes for academic writing by Benjamin Peeters.
+Personal LaTeX document classes for academic writing.
 
 ## Features
 
@@ -163,11 +163,3 @@ bp-latex/
 cd ~/MEGA/repo/latex
 ./uninstall.sh
 ```
-
-## License
-
-AGPL-3.0
-
-## Author
-
-Benjamin Peeters - benjaminpeeters.com

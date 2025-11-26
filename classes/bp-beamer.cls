@@ -9,8 +9,8 @@
 %%   - bw, colorlinks, nocolorlinks: link color mode (default: colorlinks)
 %%   - theme=singapore, theme=madrid, etc.: beamer theme (default: singapore)
 %%
-%% Copyright (C) 2025 Benjamin Peeters
-%% Licensed under AGPL-3.0
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{bp-beamer}[2025/01/01 Benjamin Peeters beamer class]

@@ -9,8 +9,8 @@
 %%   - draft, final: toggle draft mode (watermark + todo notes)
 %%   - bw, colorlinks, nocolorlinks: link color mode (default: colorlinks)
 %%
-%% Copyright (C) 2025 Benjamin Peeters
-%% Licensed under AGPL-3.0
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{bp-note}[2025/01/01 Benjamin Peeters note class]
