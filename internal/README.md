@@ -4,16 +4,16 @@ Modular LaTeX packages used by bp-latex document classes.
 
 ## Compatibility Matrix
 
-| Package | article | book | note | beamer |
-|---------|:-------:|:----:|:----:|:------:|
-| bp-flags | x | x | x | x |
-| bp-colors | x | x | x | x |
-| bp-math | x | x | x | - |
-| bp-tables | x | x | x | - |
-| bp-refs | x | x | x | - |
-| bp-draft | x | x | x | - |
-| bp-glossary | x | x | - | - |
-| bp-beamer-theme | - | - | - | x |
+| Package | article | book | note | beamer | letter |
+|---------|:-------:|:----:|:----:|:------:|:------:|
+| bp-flags | x | x | x | x | - |
+| bp-colors | x | x | x | x | - |
+| bp-math | x | x | x | - | - |
+| bp-tables | x | x | x | - | - |
+| bp-refs | x | x | x | - | - |
+| bp-draft | x | x | x | - | - |
+| bp-glossary | x | x | - | - | - |
+| bp-beamer-theme | - | - | - | x | - |
 
 ## Package Descriptions
 
@@ -31,5 +31,6 @@ Modular LaTeX packages used by bp-latex document classes.
 ## Notes
 
 - Beamer is incompatible with most packages due to its own internal handling
-- bp-flags and bp-colors are universal (loaded by all classes)
+- bp-flags and bp-colors are universal (loaded by all classes except letter)
 - Classes load packages in order: flags, colors, then feature packages
+- bp-letter wraps moderncv directly (does not use internal packages)

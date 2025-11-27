@@ -1,0 +1,72 @@
+% Template: Cover Letter for Journal Submission
+% Usage: Copy this file to start a new cover letter
+%
+% Options available:
+%   - 10pt, 11pt, 12pt: font size
+%   - a4paper, letterpaper: paper size
+%   - classic, casual, banking, oldstyle: moderncv style
+%   - draft, final: toggle draft mode
+
+\documentclass[12pt, a4paper, classic]{bp-letter}
+
+% Bibliography file for references (optional)
+% Uses same .bib file as your papers
+\bpbibfile{\BPBIB/bibliography}
+
+%----------------------------------------------------------------------------------------
+% AUTHOR INFORMATION
+%----------------------------------------------------------------------------------------
+
+\firstname{Benjamin}
+\familyname{Peeters}
+
+\address{Postdoctoral Researcher \\ Potsdam Institute for Climate Impact Research (PIK)}
+        {Telegrafenberg A31 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 14473 Potsdam, Germany}
+\mobile{(+49) XXX XXX XXXX}
+\email{peeters@pik-potsdam.de}
+\homepage{benjaminpeeters.com}
+
+%----------------------------------------------------------------------------------------
+% LETTER CONTENT
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\recipient{To the editorial board}{\textit{Journal Name}}
+\date{\today}
+\opening{Dear Editors,}
+\closing{I thank you very much in advance for considering the submission.
+I look forward to hearing from you.
+
+\
+
+Yours sincerely, \vspace*{-2em}}
+
+\makelettertitle
+
+\justifying
+
+% Opening paragraph: submission statement
+I have the pleasure to submit my contribution entitled ``Paper Title Here''
+to be considered for publication in \textit{Journal Name}.
+
+% Main body: research summary
+The study aims at offering a theoretical and empirical framework to assess...
+[Describe your research question, methodology, and key contributions]
+
+% Relevance to journal
+The growing interest in [topic] among researchers and policymakers
+\citep{ExampleAuthor2024} makes me believe that this study might be of great
+interest for the readers of \textit{Journal Name}.
+Recent work by \citet{AnotherAuthor2023} highlights the importance of...
+
+% Paper details
+The paper in its current format is XX pages long.
+An online appendix of XX pages provides additional materials.
+
+% Signature
+\textbf{Benjamin Peeters}
+
+% References are automatically printed at end via \bpbibfile
+
+\end{document}

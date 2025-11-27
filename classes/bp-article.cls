@@ -211,7 +211,7 @@
     \ifdef{\bp@bibfile}{%
         \onehalfspacing
         \section*{References}
-        \bibliographystyle{plainnat}
+        \bibliographystyle{abbrvnat_custom}
         \bibliography{\bp@bibfile}
     }{}%
     % Glossary (if enabled)
