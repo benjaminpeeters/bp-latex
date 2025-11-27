@@ -1,0 +1,53 @@
+%% bp-tables.sty
+%% Table, figure, and TikZ packages
+%% Used by: article, book, note (NOT beamer)
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-tables}[2025/01/01 Benjamin Peeters table and figure packages]
+
+%=====================================================================
+% TABLE PACKAGES
+%=====================================================================
+
+\RequirePackage{float}
+\RequirePackage{array}
+\RequirePackage{caption}
+\RequirePackage{subfigure}
+\RequirePackage{multicol,multirow}
+\RequirePackage{threeparttable}
+\RequirePackage{supertabular}
+\RequirePackage{longtable}
+\RequirePackage{diagbox}
+\RequirePackage{rotating}
+\RequirePackage{booktabs}
+\RequirePackage{colortbl}
+
+%=====================================================================
+% FIGURE PACKAGES
+%=====================================================================
+
+\RequirePackage{epstopdf}
+\RequirePackage{lscape}
+\RequirePackage{pdflscape}
+\RequirePackage{afterpage}
+
+%=====================================================================
+% TABLE HELPER COMMANDS
+%=====================================================================
+
+\newcommand{\STAB}[1]{\begin{tabular}{@{}c@{}}#1\end{tabular}}
+
+%=====================================================================
+% TIKZ
+%=====================================================================
+
+\RequirePackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{math}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows,shapes,backgrounds,fit}
+
+\endinput

@@ -1,0 +1,86 @@
+% shared.tex - Metadata and frontmatter shared between main and supplement
+% This file is input by both main.tex and supplement.tex
+%
+% Edit the placeholders below for your paper
+
+%=====================================================================
+% METADATA
+%=====================================================================
+
+\author{
+    Your Name\footnote{Your Institution, Address. \\
+    E-mail: \href{mailto:your.email@example.com}{\nolinkurl{your.email@example.com}}}
+}
+
+% Title (conditional: different for supplement)
+\ifonlineappendix
+    \title{\vspace{-2cm}Online Supplement \\ Your Paper Title}
+\else
+    \title{\vspace{-1cm}Your Paper Title}
+\fi
+
+\date{\today}
+
+% Image path (local folder)
+\newcommand*{\img}{img}
+
+%=====================================================================
+% TITLE AND ABSTRACT (main only)
+%=====================================================================
+
+\ifonlineappendix
+    \maketitle
+\else
+    \maketitle
+
+    {
+    \onehalfspacing
+
+    \begin{abstract}
+    \noindent
+    Your abstract goes here. Summarize the research question, methodology,
+    main findings, and contribution. Keep it concise (150-250 words typically).
+    \end{abstract}
+
+    \vspace{1em}
+
+    \medskip
+    \noindent \textit{JEL classification}: F00, G00, E00
+
+    \vspace{1em}
+
+    \medskip
+    \noindent \textbf{Keywords}: keyword one, keyword two, keyword three
+
+    }
+
+    \thispagestyle{empty}
+    \clearpage
+    \setcounter{footnote}{0}
+    \renewcommand{\thefootnote}{\arabic{footnote}}
+    \setcounter{page}{1}
+    \newpage
+\fi
+
+%=====================================================================
+% BACKMATTER CONFIGURATION
+% (auto-printed by bp-article at document end)
+%=====================================================================
+
+% Bibliography file (without .bib extension)
+\bpbibfile{references}
+
+% Declaration of interest
+\ifblind
+    \bpdeclaration{The authors declare no conflict of interest.}
+\else
+    \bpdeclaration{[Your Name] declares no conflict of interest.}
+\fi
+
+% Acknowledgments (only shown for main paper, not supplement)
+\ifblind\else
+    \bpacknowledgments{%
+        [Your Name] acknowledges the support of [funding source].
+        We thank [names] for helpful comments and suggestions.
+    }
+\fi

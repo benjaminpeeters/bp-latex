@@ -1,0 +1,51 @@
+%% bp-math.sty
+%% Math packages, commands, and theorem environments
+%% Used by: article, book, note (NOT beamer)
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-math}[2025/01/01 Benjamin Peeters math packages]
+
+%=====================================================================
+% MATH PACKAGES
+%=====================================================================
+
+\RequirePackage{amsmath,amssymb,amsfonts}
+\RequirePackage{amsthm}
+\RequirePackage{mathrsfs}
+\RequirePackage{bbold}
+\RequirePackage{cancel}
+\RequirePackage{nicefrac}
+
+%=====================================================================
+% MATH COMMANDS
+%=====================================================================
+
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\argmin}{\arg\!\min}
+\newcommand{\argmax}{\arg\!\max}
+\newcommand{\R}{\mathbb{R}}
+
+% Independence symbol
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%=====================================================================
+% THEOREM ENVIRONMENTS
+%=====================================================================
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{assumption}{Assumption}
+\newtheorem{hypothesis}{Hypothesis}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{observation}{Observation}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\endinput

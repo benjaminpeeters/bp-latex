@@ -8,8 +8,8 @@
 #
 # Usage: ./install.sh
 #
-# Copyright (C) 2025 Benjamin Peeters
-# Licensed under AGPL-3.0
+# Copyright (c) 2025 Benjamin Peeters
+# Licensed under MIT
 
 set -e
 

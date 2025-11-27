@@ -63,26 +63,30 @@
 % LOAD INTERNAL PACKAGES WITH OPTIONS
 %=====================================================================
 
-% Build option string for bp-core
+% Build option string for bp-flags
 \ifbpbook@draft
-    \PassOptionsToPackage{draft}{bp-core}
+    \PassOptionsToPackage{draft}{bp-flags}
 \else
-    \PassOptionsToPackage{final}{bp-core}
+    \PassOptionsToPackage{final}{bp-flags}
 \fi
 
 \ifbpbook@bw
-    \PassOptionsToPackage{bw}{bp-core}
+    \PassOptionsToPackage{bw}{bp-flags}
 \else
     \ifbpbook@colorlinks
-        \PassOptionsToPackage{colorlinks}{bp-core}
+        \PassOptionsToPackage{colorlinks}{bp-flags}
     \else
-        \PassOptionsToPackage{nocolorlinks}{bp-core}
+        \PassOptionsToPackage{nocolorlinks}{bp-flags}
     \fi
 \fi
 
-% Load packages
-\RequirePackage{bp-core}
-\RequirePackage{bp-common}
+% Load packages (order matters: flags first, then colors, then features)
+\RequirePackage{bp-flags}
+\RequirePackage{bp-colors}
+\RequirePackage{bp-math}
+\RequirePackage{bp-tables}
+\RequirePackage{bp-refs}
+\RequirePackage{bp-draft}
 
 \ifbpbook@glossary
     \RequirePackage{bp-glossary}
@@ -111,7 +115,7 @@
 
 \RequirePackage[raggedright]{titlesec}
 \newcommand{\hsp}{\hspace{10pt}}
-\titleformat{\chapter}[hang]{\LARGE\bfseries}{\thechapter\hsp\textcolor{gray5}{$|$}\hsp}{0pt}{\LARGE\bfseries}
+\titleformat{\chapter}[hang]{\LARGE\bfseries}{\thechapter\hsp\textcolor{bpgray5}{$|$}\hsp}{0pt}{\LARGE\bfseries}
 
 %=====================================================================
 % TOC CONFIGURATION
@@ -132,10 +136,10 @@
         skin=bicolor jigsaw,
         colbacklower=black!6,
         colback=white,
-        colframe=mygreen!60!black,
+        colframe=bpgreen!60!black,
         fonttitle=\bfseries,
         center title,
-        colbacktitle=mygreen!10!white,
+        colbacktitle=bpgreen!10!white,
         coltitle=black,
         boxrule=1.2pt,
         titlerule=0.0pt,
@@ -152,10 +156,10 @@
         skin=bicolor jigsaw,
         colbacklower=black!6,
         colback=white,
-        colframe=myblue!60!black,
+        colframe=bpblue!60!black,
         fonttitle=\bfseries,
         center title,
-        colbacktitle=myblue!10!white,
+        colbacktitle=bpblue!10!white,
         coltitle=black,
         boxrule=1.2pt,
         titlerule=0.0pt,
@@ -168,8 +172,8 @@
 
     % Warning box (red)
     \newtcolorbox{boxwarning}[2][]{%
-        colframe=myred!75!black,
-        colback=myred!5!white,
+        colframe=bpred!75!black,
+        colback=bpred!5!white,
         fonttitle=\bfseries,
         center title,
         boxrule=0.9pt,

@@ -1,0 +1,75 @@
+%% bp-refs.sty
+%% Bibliography, hyperlinks, and cross-references
+%% Used by: article, book, note (NOT beamer)
+%%
+%% Requires: bp-flags, bp-colors (loaded first by class)
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-refs}[2025/01/01 Benjamin Peeters reference packages]
+
+%=====================================================================
+% BIBLIOGRAPHY (NATBIB)
+%=====================================================================
+
+\RequirePackage{natbib}
+\setcitestyle{authoryear,round}
+\renewcommand{\bibsection}{}
+\RequirePackage{url}
+\urlstyle{tt}
+
+%=====================================================================
+% HYPERREF
+%=====================================================================
+
+\RequirePackage{hyperref}
+\hypersetup{final}  % Override global 'draft' option that disables colored links
+
+% Apply color settings based on bp-flags
+\ifbp@colorlinks
+    \ifbp@colorsimple
+        % Default hyperlink setup (let hyperref choose)
+    \else
+        \hypersetup{
+            colorlinks=true,
+            linkcolor={bpred},
+            citecolor={bpblue},
+            urlcolor={bpurlblue}
+        }
+    \fi
+\else
+    % Both bw and nocolorlinks result in black links
+    \hypersetup{
+        colorlinks=true,
+        linkcolor={black},
+        citecolor={black},
+        urlcolor={black}
+    }
+\fi
+
+%=====================================================================
+% CROSS-REFERENCES
+%=====================================================================
+
+\RequirePackage{xr-hyper}
+\RequirePackage{varioref}
+\RequirePackage[capitalise,noabbrev]{cleveref}
+
+% Cleveref format customizations
+\crefformat{footnote}{#2\footnotemark[#1]#3}
+\creflabelformat{equation}{#2#1#3}
+\crefrangelabelformat{equation}{#3#1#4 to~#5#2#6}
+
+% Cleveref theorem integration
+\Crefname{theorem}{Theorem}{Theorems}
+\Crefname{assumption}{Assumption}{Assumptions}
+\Crefname{hypothesis}{Hypothesis}{Hypotheses}
+\Crefname{proposition}{Proposition}{Propositions}
+\Crefname{conjecture}{Conjecture}{Conjectures}
+\Crefname{lemma}{Lemma}{Lemmas}
+\Crefname{corollary}{Corollary}{Corollaries}
+\Crefname{observation}{Observation}{Observations}
+
+\endinput

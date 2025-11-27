@@ -1,0 +1,56 @@
+%% bp-flags.sty
+%% Boolean flags and document options
+%% Used by: all classes (article, book, note, beamer)
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-flags}[2025/01/01 Benjamin Peeters flags and options]
+
+%=====================================================================
+% COLOR MODE FLAGS (mutually exclusive: bw, colorlinks, nocolorlinks)
+%=====================================================================
+
+\newif\ifbp@bw         \bp@bwfalse           % B&W links
+\newif\ifbp@colorlinks \bp@colorlinkstrue    % Colored links (default)
+\newif\ifbp@colorsimple\bp@colorsimplefalse  % Simple color scheme
+
+%=====================================================================
+% DRAFT MODE FLAGS
+%=====================================================================
+
+\newif\ifbp@draft      \bp@draftfalse
+\newif\ifbp@todo       \bp@todofalse
+\newif\ifbp@blind      \bp@blindfalse
+
+%=====================================================================
+% PACKAGE OPTIONS
+%=====================================================================
+
+% Color modes
+\DeclareOption{bw}{\bp@bwtrue\bp@colorlinksfalse}
+\DeclareOption{colorlinks}{\bp@colorlinkstrue\bp@bwfalse}
+\DeclareOption{nocolorlinks}{\bp@colorlinksfalse\bp@bwfalse}
+\DeclareOption{colorsimple}{\bp@colorsimpletrue}
+
+% Draft/Final modes
+\DeclareOption{draft}{\bp@drafttrue\bp@todotrue}
+\DeclareOption{final}{\bp@draftfalse\bp@todofalse}
+\DeclareOption{todo}{\bp@todotrue}
+\DeclareOption{notodo}{\bp@todofalse}
+\DeclareOption{blind}{\bp@blindtrue}
+
+\ProcessOptions\relax
+
+%=====================================================================
+% PUBLIC FLAG COMMANDS (for use in documents)
+%=====================================================================
+
+\newcommand{\ifbpdraft}{\ifbp@draft}
+\newcommand{\ifbptodo}{\ifbp@todo}
+\newcommand{\ifbpblind}{\ifbp@blind}
+\newcommand{\ifbpcolorlinks}{\ifbp@colorlinks}
+\newcommand{\ifbpbw}{\ifbp@bw}
+
+\endinput

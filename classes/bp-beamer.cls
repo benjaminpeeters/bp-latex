@@ -59,25 +59,26 @@
 % LOAD INTERNAL PACKAGES WITH OPTIONS
 %=====================================================================
 
-% Build option string for bp-core
+% Build option string for bp-flags
 \ifbpbeamer@draft
-    \PassOptionsToPackage{draft}{bp-core}
+    \PassOptionsToPackage{draft}{bp-flags}
 \else
-    \PassOptionsToPackage{final}{bp-core}
+    \PassOptionsToPackage{final}{bp-flags}
 \fi
 
 \ifbpbeamer@bw
-    \PassOptionsToPackage{bw}{bp-core}
+    \PassOptionsToPackage{bw}{bp-flags}
 \else
     \ifbpbeamer@colorlinks
-        \PassOptionsToPackage{colorlinks}{bp-core}
+        \PassOptionsToPackage{colorlinks}{bp-flags}
     \else
-        \PassOptionsToPackage{nocolorlinks}{bp-core}
+        \PassOptionsToPackage{nocolorlinks}{bp-flags}
     \fi
 \fi
 
-% Load packages (NOT bp-common or bp-glossary - incompatible with beamer)
-\RequirePackage{bp-core}
+% Load packages (only flags + colors + theme - others incompatible with beamer)
+\RequirePackage{bp-flags}
+\RequirePackage{bp-colors}
 \RequirePackage{bp-beamer-theme}
 
 \endinput

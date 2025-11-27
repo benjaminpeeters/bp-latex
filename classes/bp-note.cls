@@ -53,26 +53,30 @@
 % LOAD INTERNAL PACKAGES WITH OPTIONS
 %=====================================================================
 
-% Build option string for bp-core
+% Build option string for bp-flags
 \ifbpnote@draft
-    \PassOptionsToPackage{draft}{bp-core}
+    \PassOptionsToPackage{draft}{bp-flags}
 \else
-    \PassOptionsToPackage{final}{bp-core}
+    \PassOptionsToPackage{final}{bp-flags}
 \fi
 
 \ifbpnote@bw
-    \PassOptionsToPackage{bw}{bp-core}
+    \PassOptionsToPackage{bw}{bp-flags}
 \else
     \ifbpnote@colorlinks
-        \PassOptionsToPackage{colorlinks}{bp-core}
+        \PassOptionsToPackage{colorlinks}{bp-flags}
     \else
-        \PassOptionsToPackage{nocolorlinks}{bp-core}
+        \PassOptionsToPackage{nocolorlinks}{bp-flags}
     \fi
 \fi
 
-% Load packages (minimal set for fast compilation)
-\RequirePackage{bp-core}
-\RequirePackage{bp-common}
+% Load packages (order matters: flags first, then colors, then features)
+\RequirePackage{bp-flags}
+\RequirePackage{bp-colors}
+\RequirePackage{bp-math}
+\RequirePackage{bp-tables}
+\RequirePackage{bp-refs}
+\RequirePackage{bp-draft}
 
 %=====================================================================
 % COMPACT PAGE LAYOUT

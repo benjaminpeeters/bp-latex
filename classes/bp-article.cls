@@ -66,30 +66,34 @@
 % LOAD INTERNAL PACKAGES WITH OPTIONS
 %=====================================================================
 
-% Build option string for bp-core
+% Build option string for bp-flags
 \ifbparticle@draft
-    \PassOptionsToPackage{draft}{bp-core}
+    \PassOptionsToPackage{draft}{bp-flags}
 \else
-    \PassOptionsToPackage{final}{bp-core}
+    \PassOptionsToPackage{final}{bp-flags}
 \fi
 
 \ifbparticle@bw
-    \PassOptionsToPackage{bw}{bp-core}
+    \PassOptionsToPackage{bw}{bp-flags}
 \else
     \ifbparticle@colorlinks
-        \PassOptionsToPackage{colorlinks}{bp-core}
+        \PassOptionsToPackage{colorlinks}{bp-flags}
     \else
-        \PassOptionsToPackage{nocolorlinks}{bp-core}
+        \PassOptionsToPackage{nocolorlinks}{bp-flags}
     \fi
 \fi
 
 \ifbparticle@blind
-    \PassOptionsToPackage{blind}{bp-core}
+    \PassOptionsToPackage{blind}{bp-flags}
 \fi
 
-% Load packages
-\RequirePackage{bp-core}
-\RequirePackage{bp-common}
+% Load packages (order matters: flags first, then colors, then features)
+\RequirePackage{bp-flags}
+\RequirePackage{bp-colors}
+\RequirePackage{bp-math}
+\RequirePackage{bp-tables}
+\RequirePackage{bp-refs}
+\RequirePackage{bp-draft}
 
 \ifbparticle@glossary
     \RequirePackage{bp-glossary}
@@ -137,6 +141,26 @@
 \setlength{\bibsep}{0pt plus 0.1ex}
 
 %=====================================================================
+% PUBLIC FLAGS FOR CONTENT FILES
+%=====================================================================
+
+% Provide \ifblind for use in content files
+\newif\ifblind
+\ifbparticle@blind
+    \blindtrue
+\else
+    \blindfalse
+\fi
+
+% Provide \ifonlineappendix for shared.tex
+\newif\ifonlineappendix
+\ifbparticle@onlineappendix
+    \onlineappendixtrue
+\else
+    \onlineappendixfalse
+\fi
+
+%=====================================================================
 % ONLINE APPENDIX MODE
 %=====================================================================
 
@@ -150,6 +174,51 @@
         \pagenumbering{roman}
     }
 \fi
+
+%=====================================================================
+% AUTO BACKMATTER COMMANDS
+%=====================================================================
+
+% Bibliography file command
+\newcommand{\bpbibfile}[1]{\def\bp@bibfile{#1}}
+
+% Acknowledgments command (content only, section added automatically)
+\newcommand{\bpacknowledgments}[1]{\def\bp@acknowledgments{#1}}
+
+% Declaration of interest command
+\newcommand{\bpdeclaration}[1]{\def\bp@declaration{#1}}
+
+% Need etoolbox for \ifdef
+\RequirePackage{etoolbox}
+
+% At end of document, auto-print backmatter
+\AtEndDocument{%
+    % Declaration of interest (only for main, not supplement)
+    \ifbparticle@onlineappendix\else
+        \ifdef{\bp@declaration}{%
+            \section*{Declaration of interest}
+            \bp@declaration
+        }{}%
+    \fi
+    % Acknowledgments (only for main, not supplement)
+    \ifbparticle@onlineappendix\else
+        \ifdef{\bp@acknowledgments}{%
+            \section*{Acknowledgments}
+            \bp@acknowledgments
+        }{}%
+    \fi
+    % Bibliography
+    \ifdef{\bp@bibfile}{%
+        \onehalfspacing
+        \section*{References}
+        \bibliographystyle{plainnat}
+        \bibliography{\bp@bibfile}
+    }{}%
+    % Glossary (if enabled)
+    \ifbparticle@glossary
+        \printglossary[type=\acronymtype, title=List of Acronyms]
+    \fi
+}
 
 %=====================================================================
 % BLIND MODE (ANONYMOUS SUBMISSIONS)

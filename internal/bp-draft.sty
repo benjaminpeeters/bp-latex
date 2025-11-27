@@ -1,0 +1,56 @@
+%% bp-draft.sty
+%% Draft mode features and miscellaneous packages
+%% Used by: article, book, note (NOT beamer)
+%%
+%% Requires: bp-flags (loaded first by class)
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-draft}[2025/01/01 Benjamin Peeters draft and misc packages]
+
+%=====================================================================
+% TODO NOTES
+%=====================================================================
+
+\RequirePackage{xargs}
+\setlength{\marginparwidth}{2cm}
+\RequirePackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+
+\ifbp@todo
+    \newcommandx{\unsure}[2][1=]{\todo[linecolor=orange,backgroundcolor=orange!15,bordercolor=orange,#1]{#2}}
+    \newcommandx{\change}[2][1=]{\todo[linecolor=red,backgroundcolor=red!15,bordercolor=red,#1]{#2}}
+    \newcommand{\comment}[1]{\todo[inline]{#1}}
+\else
+    \newcommand{\unsure}[1]{\ignorespaces}
+    \newcommand{\change}[1]{\ignorespaces}
+    \newcommand{\comment}[1]{\ignorespaces}
+\fi
+
+%=====================================================================
+% DRAFT WATERMARK
+%=====================================================================
+
+\ifbp@draft
+    \RequirePackage{draftwatermark}
+    \SetWatermarkText{DRAFT}
+    \SetWatermarkScale{0.5}
+    \SetWatermarkColor[gray]{0.9}
+\fi
+
+%=====================================================================
+% MISCELLANEOUS PACKAGES
+%=====================================================================
+
+\RequirePackage{lipsum}
+\RequirePackage{datetime}
+\RequirePackage[useregional=numeric]{datetime2}
+\RequirePackage{textcomp}
+\RequirePackage{manyfoot}
+\RequirePackage{algorithm}
+\RequirePackage{algorithmicx}
+\RequirePackage{algpseudocode}
+\RequirePackage[title]{appendix}
+
+\endinput

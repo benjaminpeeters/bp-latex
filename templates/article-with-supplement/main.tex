@@ -1,0 +1,128 @@
+% Template: Research Paper with Online Supplement
+% Usage: Copy this folder to start a new paper project
+%
+% Options available:
+%   - 10pt, 11pt, 12pt: font size
+%   - draft, final: toggle draft mode (watermark + todo notes)
+%   - colorlinks, nocolorlinks, bw: link color mode
+%   - singlespace, doublespace: line spacing
+%   - blind: anonymous mode for submissions
+%   - glossary, noglossary: include glossary/acronyms
+
+\documentclass[12pt, draft, colorlinks, doublespace]{bp-article}
+
+% Cross-reference to supplement (S- prefix for supplement labels)
+\externaldocument[S-]{out/supplement}
+
+\begin{document}
+
+\input{shared}
+
+%=====================================================================
+% INTRODUCTION
+%=====================================================================
+
+\section{Introduction} \label{sec:intro}
+
+This template demonstrates the structure for a research paper with an online supplement.
+The \texttt{bp-article} class provides automatic handling of bibliography, glossary, and acknowledgments.
+
+% Example citation
+Prior research has established important findings \citep{exampleAuthor2024}.
+As noted by \citet{exampleAuthor2024}, this approach has several advantages.
+
+% Example cross-reference to supplement
+Additional data details are provided in the supplement (see \cref{S-sec:data}).
+
+%=====================================================================
+% LITERATURE REVIEW
+%=====================================================================
+
+\section{Literature Review} \label{sec:literature}
+
+% Example acronym usage (defined in bp-glossary)
+The \gls{imf} and \gls{gdp} are commonly referenced in economic research.
+On first use, acronyms expand: \acrfull{fdi}.
+
+%=====================================================================
+% METHODOLOGY
+%=====================================================================
+
+\section{Methodology} \label{sec:methodology}
+
+\subsection{Theoretical Framework} \label{subsec:theory}
+
+% Example assumption environment
+\begin{assumption} \label{ass:example}
+Markets are efficient and agents are rational.
+\end{assumption}
+
+Under \Cref{ass:example}, we derive the following result.
+
+% Example equation
+\begin{equation} \label{eq:main}
+    Y_{it} = \alpha + \beta X_{it} + \varepsilon_{it}
+\end{equation}
+
+where $Y_{it}$ represents output for country $i$ at time $t$.
+
+\subsection{Estimation Strategy} \label{subsec:estimation}
+
+We estimate \cref{eq:main} using panel data methods.
+Math shortcuts available: $\R$ for real numbers, $\argmin_{x} f(x)$, $\bs{\beta}$ for bold vectors.
+
+%=====================================================================
+% RESULTS
+%=====================================================================
+
+\section{Results} \label{sec:results}
+
+% Example figure
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{\img/example.png}
+    \fbox{\parbox{0.6\textwidth}{\centering [Your figure here]\\Use \texttt{\textbackslash img} for image path}}
+    \caption{Example figure caption}
+    \label{fig:example}
+\end{figure}
+
+As shown in \Cref{fig:example}, the results indicate...
+
+% Example table
+\begin{table}[htbp]
+    \centering
+    \caption{Example regression results}
+    \label{tab:results}
+    \begin{tabular}{lcc}
+        \toprule
+        Variable & (1) & (2) \\
+        \midrule
+        $X_{it}$ & 0.50*** & 0.45*** \\
+                 & (0.10)  & (0.12) \\
+        Controls & No & Yes \\
+        \midrule
+        $R^2$ & 0.25 & 0.35 \\
+        $N$ & 1000 & 1000 \\
+        \bottomrule
+    \end{tabular}
+    \begin{tablenotes}
+        \small
+        \item Notes: Standard errors in parentheses. *** p<0.01
+    \end{tablenotes}
+\end{table}
+
+\Cref{tab:results} presents the main findings.
+Robustness checks are available in the supplement (\cref{S-sec:robustness}).
+
+%=====================================================================
+% CONCLUSION
+%=====================================================================
+
+\section{Conclusion} \label{sec:conclusion}
+
+This paper has demonstrated...
+
+% The bibliography, glossary, declaration, and acknowledgments
+% are automatically added by bp-article at \end{document}
+
+\end{document}

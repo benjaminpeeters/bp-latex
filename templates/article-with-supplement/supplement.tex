@@ -1,0 +1,97 @@
+% Template: Online Supplement
+% This file accompanies main.tex
+%
+% The 'onlineappendix' option enables:
+%   - Roman numeral page numbers
+%   - "Supplement" header
+%   - Appendix-style sections
+
+\documentclass[12pt, draft, colorlinks, doublespace, onlineappendix]{bp-article}
+
+% Cross-reference to main paper (M- prefix for main paper labels)
+\externaldocument[M-]{out/main}
+
+\begin{document}
+
+\input{shared}
+
+%=====================================================================
+% DATA DESCRIPTION
+%=====================================================================
+
+\section{Data Description} \label{sec:data}
+
+This appendix provides detailed information about the data used in the main paper.
+As discussed in \cref{M-sec:methodology}, we use panel data covering...
+
+\subsection{Data Sources} \label{subsec:sources}
+
+% Example table with data details
+\begin{table}[htbp]
+    \centering
+    \caption{Data sources and coverage}
+    \label{tab:datasources}
+    \begin{tabular}{llcc}
+        \toprule
+        Variable & Source & Coverage & Frequency \\
+        \midrule
+        GDP & World Bank & 1970-2020 & Annual \\
+        Trade & IMF & 1970-2020 & Annual \\
+        Financial flows & BIS & 1990-2020 & Quarterly \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Variable Definitions} \label{subsec:variables}
+
+Detailed variable definitions referenced in \cref{M-sec:results}.
+
+%=====================================================================
+% ADDITIONAL RESULTS
+%=====================================================================
+
+\section{Additional Results} \label{sec:additional}
+
+This section presents supplementary results supporting the findings in \cref{M-sec:results}.
+
+% Example figure
+\begin{figure}[htbp]
+    \centering
+    \fbox{\parbox{0.6\textwidth}{\centering [Additional figure]}}
+    \caption{Supplementary analysis}
+    \label{fig:supplementary}
+\end{figure}
+
+%=====================================================================
+% ROBUSTNESS CHECKS
+%=====================================================================
+
+\section{Robustness Checks} \label{sec:robustness}
+
+We conduct several robustness checks to validate the main findings from \cref{M-tab:results}.
+
+\subsection{Alternative Specifications} \label{subsec:altspec}
+
+% Example robustness table
+\begin{table}[htbp]
+    \centering
+    \caption{Robustness: Alternative specifications}
+    \label{tab:robustness}
+    \begin{tabular}{lccc}
+        \toprule
+        & Baseline & Alt. 1 & Alt. 2 \\
+        \midrule
+        Main effect & 0.50*** & 0.48*** & 0.52*** \\
+                    & (0.10)  & (0.11)  & (0.09) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Sample Restrictions} \label{subsec:sample}
+
+Results are robust to excluding outliers and restricting the sample period.
+
+% The bibliography and glossary are automatically added by bp-article
+% (Acknowledgments and declaration are only printed in main paper)
+
+\end{document}
