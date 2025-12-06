@@ -1,0 +1,28 @@
+% Preview file for quick concept testing
+% Usage: latexmk preview/preview_concept.tex
+%
+% This allows you to preview a single concept without compiling the full book.
+
+\documentclass[12pt, colorlinks, boxes]{bp-book}
+
+\begin{document}
+
+% Include your concept file here:
+% \input{concepts/your_concept}
+
+% Or write directly:
+\begin{boxconcept}{Sample Concept Preview}
+    This is a preview environment for testing concept boxes.
+
+    You can include equations:
+    \[
+        \Delta d_t = r \cdot d_{t-1} - g \cdot d_{t-1} + pb_t + sfa_t
+    \]
+
+    \tcblower
+    FURTHER READING
+
+    Add references here.
+\end{boxconcept}
+
+\end{document}

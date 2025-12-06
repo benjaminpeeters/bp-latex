@@ -1,0 +1,13 @@
+\contentsline {chapter}{Abstract}{iii}{chapter*.1}%
+\contentsline {chapter}{Acknowledgements}{v}{chapter*.2}%
+\contentsline {chapter}{Contents}{vii}{chapter*.3}%
+\contentsline {chapter}{List of Case Studies}{ix}{chapter*.4}%
+\contentsline {chapter}{List of Figures}{xi}{chapter*.5}%
+\contentsline {chapter}{List of Tables}{xiii}{chapter*.6}%
+\contentsline {chapter}{Acronyms}{xv}{chapter*.8}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Case Studies}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Concepts}{5}{chapter.3}%
+\contentsline {chapter}{\numberline {4}Conclusion}{7}{chapter.4}%
+\contentsline {chapter}{Bibliography}{9}{chapter*.9}%

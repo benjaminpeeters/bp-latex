@@ -1,15 +1,21 @@
-% Template: Book
+% Template: Academic Book with Case Studies and Concepts
 % Usage: Copy this folder to start a new book project
+%        Run: latexmk main.tex (uses .latexmkrc config)
 %
 % Options available:
 %   - 10pt, 11pt, 12pt: font size
-%   - draft, final: toggle draft mode with todo notes
-%   - colorlinks, nocolorlinks: toggle colored hyperlinks
+%   - draft, final: toggle draft mode (shows DRAFT header)
+%   - colorlinks, nocolorlinks, bw: link color modes
 %   - singlespace, doublespace: line spacing (default: singlespace)
-%   - glossary, noglossary: include glossary
+%   - glossary, noglossary: include glossary support
 %   - boxes: enable tcolorbox environments (boxcasestudy, boxconcept, boxwarning)
 
 \documentclass[12pt, colorlinks, glossary, boxes]{bp-book}
+
+% Book metadata
+\title{Your Book Title}
+\author{Your Name}
+\date{\today}
 
 \begin{document}
 
@@ -19,28 +25,35 @@
 
 \frontmatter
 
-\title{Your Book Title}
-\author{Benjamin Peeters}
-\date{\today}
-
 \maketitle
 
 %---------------------------------------------------------------------
-% Abstract/Preface
+% Abstract
 %---------------------------------------------------------------------
 
-\chapter*{Preface}
-\addcontentsline{toc}{chapter}{Preface}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 
-This is the preface to your book. It explains the motivation and scope.
+\input{abstract}
 
 %---------------------------------------------------------------------
-% Table of Contents
+% Acknowledgements
+%---------------------------------------------------------------------
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+
+\input{acknowledgements}
+
+%---------------------------------------------------------------------
+% Table of Contents and Lists
 %---------------------------------------------------------------------
 
 \tableofcontents
+\listofcasestudies
 \listoffigures
 \listoftables
+\printglossaries
 
 %=====================================================================
 % MAIN MATTER
@@ -55,82 +68,67 @@ This is the preface to your book. It explains the motivation and scope.
 \chapter{Introduction}
 \label{chap:intro}
 
-This is a sample book using the \texttt{bp-book} class. You can use acronyms like \gls{gdp} or \gls{imf}.
+This is a sample book using the \texttt{bp-book} class with the \texttt{boxes} option enabled.
+You can use acronyms like \gls{gdp} or \gls{imf}.
 
 \section{Background}
 
 Some background information here.
 
-\section{Objectives}
-
-The objectives of this book are:
-\begin{enumerate}
-    \item First objective
-    \item Second objective
-    \item Third objective
-\end{enumerate}
+% Include sections from external files:
+% \input{sections/example}
 
 %---------------------------------------------------------------------
 % Chapter 2
 %---------------------------------------------------------------------
 
-\chapter{Theory}
-\label{chap:theory}
-
-\section{Theoretical Framework}
-
-You can use theorem environments:
-
-\begin{theorem}
-This is a theorem statement.
-\end{theorem}
-
-\begin{definition}
-This is a definition.
-\end{definition}
-
-\section{Case Studies and Concepts}
+\chapter{Case Studies}
+\label{chap:casestudies}
 
 With the \texttt{boxes} option, you get special tcolorbox environments:
 
 \begin{boxcasestudy}{Sample Case Study}
     This is a case study box. It's numbered within chapters and has a green frame.
 
-    Use this for detailed examples or country studies.
+    Use this for detailed examples or country-specific analysis.
+
+    \tcblower
+    SOURCES
+
+    List your sources here.
 \end{boxcasestudy}
 
-\begin{boxconcept}{Sample Technical Note}
-    This is a concept/technical note box. It has a blue frame.
-
-    Use this for technical explanations or clarifications.
-\end{boxconcept}
-
-\begin{boxwarning}{Important Warning}
-    This is a warning box with a red frame.
-
-    Use this for important caveats or notes of caution.
-\end{boxwarning}
+% Include case studies from external files:
+% \input{casestudies/example}
 
 %---------------------------------------------------------------------
 % Chapter 3
 %---------------------------------------------------------------------
 
-\chapter{Analysis}
-\label{chap:analysis}
+\chapter{Concepts}
+\label{chap:concepts}
 
-Use \Cref{chap:intro} for smart cross-references.
+\begin{boxconcept}{Sample Technical Note}
+    This is a concept/technical note box. It has a blue frame.
 
-Math: $\R$, $\argmin$, $\bs{x}$
+    Use this for explanations of key concepts or methodological notes.
 
-\begin{equation}
-    E = mc^2
-    \label{eq:energy}
-\end{equation}
+    You can include equations:
+    \[
+        E = mc^2
+    \]
 
-See \Cref{eq:energy} for the equation reference.
+    \tcblower
+    FURTHER READING
+
+    List references for further reading.
+\end{boxconcept}
+
+% Include concepts from external files:
+% \input{concepts/example}
 
 %---------------------------------------------------------------------
-% Chapter 4
+% Conclusion
 %---------------------------------------------------------------------
 
 \chapter{Conclusion}
@@ -148,14 +146,8 @@ Your conclusions here.
 % Bibliography
 %---------------------------------------------------------------------
 
-% \bibliographystyle{abbrvnat_custom}
-% \bibliography{bibliographie}
-
-%---------------------------------------------------------------------
-% Glossary
-%---------------------------------------------------------------------
-
-% \printglossaries
+\bibliographystyle{abbrvnat_custom}
+\bibliography{bibliography}
 
 %---------------------------------------------------------------------
 % Appendices (optional)

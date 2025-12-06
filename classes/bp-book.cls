@@ -124,6 +124,34 @@
 \RequirePackage{tocbibind}
 
 %=====================================================================
+% HEADERS AND FOOTERS
+%=====================================================================
+
+\RequirePackage{fancyhdr}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\ifbp@draft
+    \fancypagestyle{plain}{%
+        \fancyhf{}%
+        \fancyfoot[C]{\thepage}%
+        \fancyhead[C]{\footnotesize\textcolor{bpred}{\textbf{DRAFT} -- \today}}%
+    }
+    \fancyhead[C]{\footnotesize\textcolor{bpred}{\textbf{DRAFT} -- \today}}
+\fi
+\pagestyle{fancy}
+
+%=====================================================================
+% ADDITIONAL PACKAGES
+%=====================================================================
+
+\RequirePackage{lscape}
+\RequirePackage{pdflscape}
+\RequirePackage[title]{appendix}
+\RequirePackage{eurosym}
+
+%=====================================================================
 % TCOLORBOX ENVIRONMENTS (OPTIONAL)
 %=====================================================================
 
@@ -183,6 +211,12 @@
         bottomtitle=2mm,
         lines before break=20,
         title=Warning: #2,#1}
+
+    % Command to print list of case studies
+    \newcommand{\listofcasestudies}{%
+        \tcblistof[\chapter*]{casestudy}{List of Case Studies}%
+        \addcontentsline{toc}{chapter}{List of Case Studies}%
+    }
 \fi
 
 \endinput
