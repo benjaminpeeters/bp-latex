@@ -172,6 +172,11 @@
         \fancyfoot[C]{\thepage}
         \appendix
         \pagenumbering{roman}
+        % Custom numbering for online appendix (section-prefixed)
+        \def\theequation{\thesection.\arabic{equation}}
+        \def\thefigure{\thesection.\arabic{figure}}
+        \def\thetable{\thesection.\arabic{table}}
+        \def\thefootnote{\thesection.\arabic{footnote}}
     }
 \fi
 
