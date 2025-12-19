@@ -10,6 +10,7 @@
 %%   - singlespace, doublespace: line spacing (default: singlespace)
 %%   - glossary, noglossary: include glossary (default: glossary)
 %%   - boxes: enable tcolorbox environments (boxcasestudy, boxconcept, boxwarning)
+%%   - preview: minimal mode for previewing content (enables boxes, empty pagestyle)
 %%
 %% Copyright (c) 2025 Benjamin Peeters
 %% Licensed under MIT
@@ -28,6 +29,7 @@
 \newif\ifbpbook@doublespace\bpbook@doublespacefalse  % Default single for books
 \newif\ifbpbook@glossary   \bpbook@glossarytrue
 \newif\ifbpbook@boxes      \bpbook@boxesfalse
+\newif\ifbpbook@preview    \bpbook@previewfalse
 
 % Font size (default 12pt)
 \newcommand{\bpbook@fontsize}{12pt}
@@ -47,6 +49,7 @@
 \DeclareOption{glossary}{\bpbook@glossarytrue}
 \DeclareOption{noglossary}{\bpbook@glossaryfalse}
 \DeclareOption{boxes}{\bpbook@boxestrue}
+\DeclareOption{preview}{\bpbook@previewtrue\bpbook@boxestrue\bpbook@glossaryfalse}
 
 % Pass unknown options to book class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
@@ -57,7 +60,11 @@
 % LOAD BASE CLASS
 %=====================================================================
 
-\LoadClass[\bpbook@fontsize]{book}
+\ifbpbook@preview
+    \LoadClass[\bpbook@fontsize,oneside]{book}
+\else
+    \LoadClass[\bpbook@fontsize]{book}
+\fi
 
 %=====================================================================
 % LOAD INTERNAL PACKAGES WITH OPTIONS
@@ -140,7 +147,11 @@
     }
     \fancyhead[C]{\footnotesize\textcolor{bpred}{\textbf{DRAFT} -- \today}}
 \fi
-\pagestyle{fancy}
+\ifbpbook@preview
+    \pagestyle{empty}
+\else
+    \pagestyle{fancy}
+\fi
 
 %=====================================================================
 % ADDITIONAL PACKAGES
@@ -216,6 +227,25 @@
     \newcommand{\listofcasestudies}{%
         \tcblistof[\chapter*]{casestudy}{List of Case Studies}%
         \addcontentsline{toc}{chapter}{List of Case Studies}%
+    }
+\fi
+
+%=====================================================================
+% PREVIEW MODE SUPPORT
+%=====================================================================
+
+\ifbpbook@preview
+    \RequirePackage{xstring}
+    % Smart path handling for preview content:
+    %   \previewcontent{concepts/file}        -> ../concepts/file (adds ../)
+    %   \previewcontent{../concepts/file}     -> ../concepts/file (unchanged)
+    %   \previewcontent{/absolute/path/file}  -> /absolute/path/file (unchanged)
+    \newcommand{\previewcontent}[1]{%
+        \IfBeginWith{#1}{/}{\input{#1}}{%
+            \IfBeginWith{#1}{..}{\input{#1}}{%
+                \input{../#1}%
+            }%
+        }%
     }
 \fi
 
