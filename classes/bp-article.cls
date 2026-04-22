@@ -245,13 +245,14 @@
         \renewcommand{\maketitle}{%
             \bp@oldmaketitle
             \begin{center}
-            \fbox{\parbox{0.8\textwidth}{%
+            \small
+            \fbox{\parbox{0.75\textwidth}{%
                 \centering
-                \textsc{Draft Version} -- Generated: \today\ at \currenttime\\[0.5em]
-                \small This document is a working draft and should not be circulated or cited.
+                \textsc{Draft Version} -- Generated: \today\ at \currenttime\\[0.2em]
+                \footnotesize This document is a working draft and should not be circulated or cited.
             }}
             \end{center}
-            \vspace{1em}
+            \vspace{0.5em}
         }%
     }
 \fi
