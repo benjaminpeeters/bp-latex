@@ -53,4 +53,31 @@
 \RequirePackage{algpseudocode}
 \RequirePackage[title]{appendix}
 
+%=====================================================================
+% LINE NUMBERS (review aid; enabled via the `lineno' class option)
+%=====================================================================
+
+\ifbp@lineno
+    \RequirePackage{lineno}
+    % amsmath compatibility: wrap display-math environments in \linenomath so
+    % they are line-numbered without "Improper \prevdepth" errors.
+    \newcommand*\bp@linenoPatch[1]{%
+        \expandafter\let\csname bp@old#1\expandafter\endcsname\csname #1\endcsname
+        \expandafter\let\csname bp@oldend#1\expandafter\endcsname\csname end#1\endcsname
+        \renewenvironment{#1}%
+            {\linenomath\csname bp@old#1\endcsname}%
+            {\csname bp@oldend#1\endcsname\endlinenomath}%
+    }
+    \newcommand*\bp@linenoPatchBoth[1]{\bp@linenoPatch{#1}\bp@linenoPatch{#1*}}
+    \AtBeginDocument{%
+        \bp@linenoPatchBoth{equation}%
+        \bp@linenoPatchBoth{align}%
+        \bp@linenoPatchBoth{flalign}%
+        \bp@linenoPatchBoth{alignat}%
+        \bp@linenoPatchBoth{gather}%
+        \bp@linenoPatchBoth{multline}%
+        \linenumbers
+    }
+\fi
+
 \endinput

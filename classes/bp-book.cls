@@ -30,6 +30,7 @@
 \newif\ifbpbook@glossary   \bpbook@glossarytrue
 \newif\ifbpbook@boxes      \bpbook@boxesfalse
 \newif\ifbpbook@preview    \bpbook@previewfalse
+\newif\ifbpbook@lineno     \bpbook@linenofalse
 
 % Font size (default 12pt)
 \newcommand{\bpbook@fontsize}{12pt}
@@ -50,6 +51,7 @@
 \DeclareOption{noglossary}{\bpbook@glossaryfalse}
 \DeclareOption{boxes}{\bpbook@boxestrue}
 \DeclareOption{preview}{\bpbook@previewtrue\bpbook@boxestrue\bpbook@glossaryfalse}
+\DeclareOption{lineno}{\bpbook@linenotrue}
 
 % Pass unknown options to book class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
@@ -85,6 +87,10 @@
     \else
         \PassOptionsToPackage{nocolorlinks}{bp-flags}
     \fi
+\fi
+
+\ifbpbook@lineno
+    \PassOptionsToPackage{lineno}{bp-flags}
 \fi
 
 % Load packages (order matters: flags first, then colors, then features)

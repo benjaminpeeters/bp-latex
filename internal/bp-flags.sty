@@ -23,6 +23,7 @@
 \newif\ifbp@draft      \bp@draftfalse
 \newif\ifbp@todo       \bp@todofalse
 \newif\ifbp@blind      \bp@blindfalse
+\newif\ifbp@lineno     \bp@linenofalse       % Line numbers (review aid)
 
 %=====================================================================
 % PACKAGE OPTIONS
@@ -41,6 +42,10 @@
 \DeclareOption{notodo}{\bp@todofalse}
 \DeclareOption{blind}{\bp@blindtrue}
 
+% Line numbers (review aid)
+\DeclareOption{lineno}{\bp@linenotrue}
+\DeclareOption{nolineno}{\bp@linenofalse}
+
 \ProcessOptions\relax
 
 %=====================================================================
@@ -52,5 +57,6 @@
 \newcommand{\ifbpblind}{\ifbp@blind}
 \newcommand{\ifbpcolorlinks}{\ifbp@colorlinks}
 \newcommand{\ifbpbw}{\ifbp@bw}
+\newcommand{\ifbplineno}{\ifbp@lineno}
 
 \endinput

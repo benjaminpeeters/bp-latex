@@ -23,6 +23,7 @@
 \newif\ifbpnote@draft      \bpnote@draftfalse
 \newif\ifbpnote@bw         \bpnote@bwfalse
 \newif\ifbpnote@colorlinks \bpnote@colorlinkstrue
+\newif\ifbpnote@lineno     \bpnote@linenofalse
 
 % Font size (default 11pt for notes)
 \newcommand{\bpnote@fontsize}{11pt}
@@ -37,6 +38,7 @@
 \DeclareOption{bw}{\bpnote@bwtrue\bpnote@colorlinksfalse}
 \DeclareOption{colorlinks}{\bpnote@colorlinkstrue\bpnote@bwfalse}
 \DeclareOption{nocolorlinks}{\bpnote@colorlinksfalse\bpnote@bwfalse}
+\DeclareOption{lineno}{\bpnote@linenotrue}
 
 % Pass unknown options to article class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -68,6 +70,10 @@
     \else
         \PassOptionsToPackage{nocolorlinks}{bp-flags}
     \fi
+\fi
+
+\ifbpnote@lineno
+    \PassOptionsToPackage{lineno}{bp-flags}
 \fi
 
 % Load packages (order matters: flags first, then colors, then features)

@@ -30,6 +30,7 @@
 \newif\ifbparticle@blind      \bparticle@blindfalse
 \newif\ifbparticle@glossary   \bparticle@glossarytrue
 \newif\ifbparticle@onlineappendix \bparticle@onlineappendixfalse
+\newif\ifbparticle@lineno     \bparticle@linenofalse
 
 % Font size (default 12pt)
 \newcommand{\bparticle@fontsize}{12pt}
@@ -50,6 +51,7 @@
 \DeclareOption{glossary}{\bparticle@glossarytrue}
 \DeclareOption{noglossary}{\bparticle@glossaryfalse}
 \DeclareOption{onlineappendix}{\bparticle@onlineappendixtrue}
+\DeclareOption{lineno}{\bparticle@linenotrue}
 
 % Pass unknown options to article class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -85,6 +87,10 @@
 
 \ifbparticle@blind
     \PassOptionsToPackage{blind}{bp-flags}
+\fi
+
+\ifbparticle@lineno
+    \PassOptionsToPackage{lineno}{bp-flags}
 \fi
 
 % Load packages (order matters: flags first, then colors, then features)
