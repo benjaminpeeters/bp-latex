@@ -63,24 +63,9 @@
 \fi
 
 %=====================================================================
-% BACKMATTER CONFIGURATION
-% (auto-printed by bp-article at document end)
+% BACKMATTER
 %=====================================================================
-
-% Bibliography file (without .bib extension)
-\bpbibfile{references}
-
-% Declaration of interest
-\ifblind
-    \bpdeclaration{The authors declare no conflict of interest.}
-\else
-    \bpdeclaration{[Your Name] declares no conflict of interest.}
-\fi
-
-% Acknowledgments (only shown for main paper, not supplement)
-\ifblind\else
-    \bpacknowledgments{%
-        [Your Name] acknowledges the support of [funding source].
-        We thank [names] for helpful comments and suggestions.
-    }
-\fi
+% Bibliography, acknowledgments, and declaration live in backmatter.tex,
+% \input at the end of main.tex / supplement.tex. Kept out of this
+% front-matter file so \bibliography is a literal that both the LaTeX build
+% and the editor LSP resolve.

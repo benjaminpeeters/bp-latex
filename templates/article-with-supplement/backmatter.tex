@@ -1,0 +1,27 @@
+% backmatter.tex - Shared end matter for main.tex and supplement.tex.
+% \input just before \end{document} in each. Kept separate from shared.tex
+% (front matter, \input at the top) so the bibliography is a literal
+% \bibliography{...} that both the LaTeX build and the editor LSP resolve.
+
+% Declaration of interest + acknowledgments: main paper only (skipped in the supplement)
+\ifonlineappendix\else
+    \section*{Declaration of interest}
+    \ifblind
+        The authors declare no conflict of interest.
+    \else
+        [Your Name] declares no conflict of interest.
+    \fi
+
+    % Acknowledgments: omitted in blind mode
+    \ifblind\else
+        \section*{Acknowledgments}
+        [Your Name] acknowledges the support of [funding source].
+        We thank [names] for helpful comments and suggestions.
+    \fi
+\fi
+
+% References (printed for both main and supplement)
+\onehalfspacing
+\section*{References}
+\bibliographystyle{abbrvnat_custom}
+\bibliography{references}

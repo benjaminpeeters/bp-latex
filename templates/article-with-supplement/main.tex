@@ -25,7 +25,7 @@
 \section{Introduction} \label{sec:intro}
 
 This template demonstrates the structure for a research paper with an online supplement.
-The \texttt{bp-article} class provides automatic handling of bibliography, glossary, and acknowledgments.
+The \texttt{bp-article} class auto-prints the glossary; the bibliography, acknowledgments, and interest declaration live in \texttt{backmatter.tex}.
 
 % Example citation
 Prior research has established important findings \citep{exampleAuthor2024}.
@@ -122,7 +122,11 @@ Robustness checks are available in the supplement (\cref{S-sec:robustness}).
 
 This paper has demonstrated...
 
-% The bibliography, glossary, declaration, and acknowledgments
-% are automatically added by bp-article at \end{document}
+%=====================================================================
+% BACKMATTER (bibliography, declaration, acknowledgments)
+%=====================================================================
+% Edit backmatter.tex to set these. The glossary (if enabled) is still
+% auto-printed by bp-article.
+\input{backmatter}
 
 \end{document}

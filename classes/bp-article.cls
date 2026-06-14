@@ -187,45 +187,17 @@
 \fi
 
 %=====================================================================
-% AUTO BACKMATTER COMMANDS
+% AUTO BACKMATTER (GLOSSARY ONLY)
 %=====================================================================
+% Bibliography, acknowledgments, and declaration are NOT auto-printed.
+% Put them in a backmatter.tex that each document \inputs just before
+% \end{document} (see templates/article-with-supplement/). This keeps
+% \bibliography a literal that both the LaTeX build and the editor LSP
+% resolve; a macro-indirected \bibliography is invisible to the LSP and
+% makes it report every \cite as an undefined reference.
 
-% Bibliography file command
-\newcommand{\bpbibfile}[1]{\def\bp@bibfile{#1}}
-
-% Acknowledgments command (content only, section added automatically)
-\newcommand{\bpacknowledgments}[1]{\def\bp@acknowledgments{#1}}
-
-% Declaration of interest command
-\newcommand{\bpdeclaration}[1]{\def\bp@declaration{#1}}
-
-% Need etoolbox for \ifdef
-\RequirePackage{etoolbox}
-
-% At end of document, auto-print backmatter
+% At end of document, auto-print the glossary (if the glossary option is set).
 \AtEndDocument{%
-    % Declaration of interest (only for main, not supplement)
-    \ifbparticle@onlineappendix\else
-        \ifdef{\bp@declaration}{%
-            \section*{Declaration of interest}
-            \bp@declaration
-        }{}%
-    \fi
-    % Acknowledgments (only for main, not supplement)
-    \ifbparticle@onlineappendix\else
-        \ifdef{\bp@acknowledgments}{%
-            \section*{Acknowledgments}
-            \bp@acknowledgments
-        }{}%
-    \fi
-    % Bibliography
-    \ifdef{\bp@bibfile}{%
-        \onehalfspacing
-        \section*{References}
-        \bibliographystyle{abbrvnat_custom}
-        \bibliography{\bp@bibfile}
-    }{}%
-    % Glossary (if enabled)
     \ifbparticle@glossary
         \printglossary[type=\acronymtype, title=List of Acronyms]
     \fi

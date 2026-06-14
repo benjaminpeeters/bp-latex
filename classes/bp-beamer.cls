@@ -19,16 +19,22 @@
 % OPTION HANDLING
 %=====================================================================
 
+% kvoptions must be loaded before \DeclareOption (LaTeX2e options-section
+% rules: no \RequirePackage between \DeclareOption and \ProcessOptions).
+\RequirePackage{kvoptions}
+
+% xcolor must receive [table,dvipsnames] before beamer loads it without options
+% (bp-colors later does \RequirePackage[table,dvipsnames]{xcolor}, which would
+% otherwise raise an option clash).
+\PassOptionsToPackage{table,dvipsnames}{xcolor}
+
 % Boolean flags
 \newif\ifbpbeamer@draft      \bpbeamer@draftfalse
 \newif\ifbpbeamer@bw         \bpbeamer@bwfalse
 \newif\ifbpbeamer@colorlinks \bpbeamer@colorlinkstrue
 
-% Aspect ratio (default 16:9)
-\newcommand{\bpbeamer@aspectratio}{169}
-
-% Theme (default singapore)
-\newcommand{\bpbeamer@theme}{singapore}
+% Aspect ratio and theme are declared below via \DeclareStringOption,
+% which creates \bpbeamer@aspectratio and \bpbeamer@theme with the given defaults.
 
 % Declare options
 \DeclareOption{draft}{\bpbeamer@drafttrue}
@@ -38,7 +44,6 @@
 \DeclareOption{nocolorlinks}{\bpbeamer@colorlinksfalse\bpbeamer@bwfalse}
 
 % Handle key=value options
-\RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=bpbeamer,prefix=bpbeamer@}
 \DeclareStringOption[169]{aspectratio}
 \DeclareStringOption[singapore]{theme}
