@@ -58,17 +58,17 @@ for file in "$SCRIPT_DIR/internal/"*.sty; do
     fi
 done
 
-# Glossary entries: prefer the real ones from the bp-library data repo, and fall
-# back to the bundled minimal example so a standalone clone still compiles.
+# Glossary entries: symlink the central bp-library glossary into texmf so real
+# documents resolve \loadglsentries{bp-glossary-entries}. Package example
+# templates instead ship their own local example-glossary.tex.
 echo "Linking glossary entries..."
 GLOSSARY="$HOME/MEGA/repo/latex/bp-library/bp-glossary-entries.tex"
 if [ -f "$GLOSSARY" ]; then
+    ln -sf "$GLOSSARY" "$TEXMF/tex/latex/bp/"
     echo "  - bp-glossary-entries.tex (from bp-library)"
 else
-    GLOSSARY="$SCRIPT_DIR/data/bp-glossary-entries.tex"
-    echo "  - bp-glossary-entries.tex (bundled example; bp-library not found)"
+    echo "  - skipped (bp-library not found; real docs need it)"
 fi
-[ -f "$GLOSSARY" ] && ln -sf "$GLOSSARY" "$TEXMF/tex/latex/bp/"
 
 # Create symlinks for bibliography styles
 echo "Linking bibliography styles..."
