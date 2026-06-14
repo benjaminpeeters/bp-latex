@@ -58,14 +58,17 @@ for file in "$SCRIPT_DIR/internal/"*.sty; do
     fi
 done
 
-# Create symlinks for data files
-echo "Linking data files..."
-for file in "$SCRIPT_DIR/data/"*.tex; do
-    if [ -f "$file" ]; then
-        ln -sf "$file" "$TEXMF/tex/latex/bp/"
-        echo "  - $(basename "$file")"
-    fi
-done
+# Glossary entries: prefer the real ones from the bp-library data repo, and fall
+# back to the bundled minimal example so a standalone clone still compiles.
+echo "Linking glossary entries..."
+GLOSSARY="$HOME/MEGA/repo/latex/bp-library/bp-glossary-entries.tex"
+if [ -f "$GLOSSARY" ]; then
+    echo "  - bp-glossary-entries.tex (from bp-library)"
+else
+    GLOSSARY="$SCRIPT_DIR/data/bp-glossary-entries.tex"
+    echo "  - bp-glossary-entries.tex (bundled example; bp-library not found)"
+fi
+[ -f "$GLOSSARY" ] && ln -sf "$GLOSSARY" "$TEXMF/tex/latex/bp/"
 
 # Create symlinks for bibliography styles
 echo "Linking bibliography styles..."
@@ -99,7 +102,7 @@ if [ -n "$SHELL_RC" ]; then
     if ! grep -q "BPBIB" "$SHELL_RC" 2>/dev/null; then
         echo "" >> "$SHELL_RC"
         echo "# bp-latex bibliography path" >> "$SHELL_RC"
-        echo 'export BPBIB="$HOME/MEGA/config/latex/bibliography"' >> "$SHELL_RC"
+        echo 'export BPBIB="$HOME/MEGA/repo/latex/bp-library"' >> "$SHELL_RC"
         echo -e "  Added BPBIB to $SHELL_RC"
     else
         echo -e "  BPBIB already defined in $SHELL_RC"

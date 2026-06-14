@@ -14,8 +14,8 @@ Personal LaTeX document classes for academic writing.
 ## Installation
 
 ```bash
-git clone https://github.com/benjaminpeeters/bp-latex.git ~/MEGA/repo/latex
-cd ~/MEGA/repo/latex
+git clone https://github.com/benjaminpeeters/bp-latex.git ~/MEGA/repo/latex/bp-latex
+cd ~/MEGA/repo/latex/bp-latex
 ./install.sh
 ```
 
