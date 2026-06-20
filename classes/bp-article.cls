@@ -27,6 +27,8 @@
 \newif\ifbparticle@bw         \bparticle@bwfalse
 \newif\ifbparticle@colorlinks \bparticle@colorlinkstrue
 \newif\ifbparticle@doublespace\bparticle@doublespacetrue
+\newif\ifbparticle@onehalfspace\bparticle@onehalfspacefalse
+\newif\ifbparticle@abstractheading\bparticle@abstractheadingtrue
 \newif\ifbparticle@blind      \bparticle@blindfalse
 \newif\ifbparticle@glossary   \bparticle@glossarytrue
 \newif\ifbparticle@onlineappendix \bparticle@onlineappendixfalse
@@ -47,8 +49,11 @@
 \DeclareOption{bw}{\bparticle@bwtrue\bparticle@colorlinksfalse}
 \DeclareOption{colorlinks}{\bparticle@colorlinkstrue\bparticle@bwfalse}
 \DeclareOption{nocolorlinks}{\bparticle@colorlinksfalse\bparticle@bwfalse}
-\DeclareOption{singlespace}{\bparticle@doublespacefalse}
-\DeclareOption{doublespace}{\bparticle@doublespacetrue}
+\DeclareOption{singlespace}{\bparticle@doublespacefalse\bparticle@onehalfspacefalse}
+\DeclareOption{doublespace}{\bparticle@doublespacetrue\bparticle@onehalfspacefalse}
+\DeclareOption{onehalfspace}{\bparticle@onehalfspacetrue\bparticle@doublespacefalse}
+\DeclareOption{abstractheading}{\bparticle@abstractheadingtrue}
+\DeclareOption{noabstractheading}{\bparticle@abstractheadingfalse}
 \DeclareOption{blind}{\bparticle@blindtrue}
 \DeclareOption{glossary}{\bparticle@glossarytrue}
 \DeclareOption{noglossary}{\bparticle@glossaryfalse}
@@ -137,10 +142,14 @@
 %=====================================================================
 
 \RequirePackage{setspace}
-\ifbparticle@doublespace
-    \doublespacing
+\ifbparticle@onehalfspace
+    \onehalfspacing
 \else
-    \singlespacing
+    \ifbparticle@doublespace
+        \doublespacing
+    \else
+        \singlespacing
+    \fi
 \fi
 
 %=====================================================================
@@ -400,8 +409,10 @@
             \ifbp@hasabstract
                 \vspace*{\stretch{\bp@titlemidweight}}%
                 {\setstretch{1}\small
-                    \begin{center}\textbf{\abstractname}\end{center}%
-                    \vskip 0.3em
+                    \ifbparticle@abstractheading
+                        \begin{center}\textbf{\abstractname}\end{center}%
+                        \vskip 0.3em
+                    \fi
                     \begingroup
                         \leftskip\bp@abstractindent \rightskip\bp@abstractindent
                         \noindent \bp@abstract \par

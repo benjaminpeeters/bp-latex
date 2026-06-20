@@ -27,6 +27,7 @@
 \newif\ifbpbook@bw         \bpbook@bwfalse
 \newif\ifbpbook@colorlinks \bpbook@colorlinkstrue
 \newif\ifbpbook@doublespace\bpbook@doublespacefalse  % Default single for books
+\newif\ifbpbook@onehalfspace\bpbook@onehalfspacefalse
 \newif\ifbpbook@glossary   \bpbook@glossarytrue
 \newif\ifbpbook@boxes      \bpbook@boxesfalse
 \newif\ifbpbook@preview    \bpbook@previewfalse
@@ -50,8 +51,9 @@
 \DeclareOption{bw}{\bpbook@bwtrue\bpbook@colorlinksfalse}
 \DeclareOption{colorlinks}{\bpbook@colorlinkstrue\bpbook@bwfalse}
 \DeclareOption{nocolorlinks}{\bpbook@colorlinksfalse\bpbook@bwfalse}
-\DeclareOption{singlespace}{\bpbook@doublespacefalse}
-\DeclareOption{doublespace}{\bpbook@doublespacetrue}
+\DeclareOption{singlespace}{\bpbook@doublespacefalse\bpbook@onehalfspacefalse}
+\DeclareOption{doublespace}{\bpbook@doublespacetrue\bpbook@onehalfspacefalse}
+\DeclareOption{onehalfspace}{\bpbook@onehalfspacetrue\bpbook@doublespacefalse}
 \DeclareOption{glossary}{\bpbook@glossarytrue}
 \DeclareOption{noglossary}{\bpbook@glossaryfalse}
 \DeclareOption{boxes}{\bpbook@boxestrue}
@@ -131,10 +133,14 @@
 %=====================================================================
 
 \RequirePackage{setspace}
-\ifbpbook@doublespace
-    \doublespacing
+\ifbpbook@onehalfspace
+    \onehalfspacing
 \else
-    \singlespacing
+    \ifbpbook@doublespace
+        \doublespacing
+    \else
+        \singlespacing
+    \fi
 \fi
 
 %=====================================================================
