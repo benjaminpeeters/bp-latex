@@ -99,8 +99,14 @@
     \PassOptionsToPackage{lineno}{bp-flags}
 \fi
 
-\ifbparticle@acronymlinks
-    \PassOptionsToPackage{acronymlinks}{bp-flags}
+% Acronym hyperlinks point at the auto-printed "List of Acronyms"; with
+% noacronymlist there is no target, so force links off to avoid dangling refs.
+\ifbparticle@acronymlist
+    \ifbparticle@acronymlinks
+        \PassOptionsToPackage{acronymlinks}{bp-flags}
+    \else
+        \PassOptionsToPackage{noacronymlinks}{bp-flags}
+    \fi
 \else
     \PassOptionsToPackage{noacronymlinks}{bp-flags}
 \fi
