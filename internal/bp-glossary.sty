@@ -29,7 +29,11 @@
 }
 \makeatother
 
-\glsenablehyper
+\ifbpacronymlinks
+    \glsenablehyper
+\else
+    \glsdisablehyper
+\fi
 \makeglossaries
 
 %=====================================================================

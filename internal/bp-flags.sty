@@ -24,6 +24,7 @@
 \newif\ifbp@todo       \bp@todofalse
 \newif\ifbp@blind      \bp@blindfalse
 \newif\ifbp@lineno     \bp@linenofalse       % Line numbers (review aid)
+\newif\ifbp@acronymlinks \bp@acronymlinkstrue % Acronym hyperlinking (default on)
 
 %=====================================================================
 % PACKAGE OPTIONS
@@ -46,6 +47,10 @@
 \DeclareOption{lineno}{\bp@linenotrue}
 \DeclareOption{nolineno}{\bp@linenofalse}
 
+% Acronym hyperlinking (gated in bp-glossary)
+\DeclareOption{acronymlinks}{\bp@acronymlinkstrue}
+\DeclareOption{noacronymlinks}{\bp@acronymlinksfalse}
+
 \ProcessOptions\relax
 
 %=====================================================================
@@ -58,5 +63,6 @@
 \newcommand{\ifbpcolorlinks}{\ifbp@colorlinks}
 \newcommand{\ifbpbw}{\ifbp@bw}
 \newcommand{\ifbplineno}{\ifbp@lineno}
+\newcommand{\ifbpacronymlinks}{\ifbp@acronymlinks}
 
 \endinput

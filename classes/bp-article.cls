@@ -31,6 +31,8 @@
 \newif\ifbparticle@glossary   \bparticle@glossarytrue
 \newif\ifbparticle@onlineappendix \bparticle@onlineappendixfalse
 \newif\ifbparticle@lineno     \bparticle@linenofalse
+\newif\ifbparticle@acronymlist \bparticle@acronymlisttrue
+\newif\ifbparticle@acronymlinks\bparticle@acronymlinkstrue
 
 % Font size (default 12pt)
 \newcommand{\bparticle@fontsize}{12pt}
@@ -52,6 +54,10 @@
 \DeclareOption{noglossary}{\bparticle@glossaryfalse}
 \DeclareOption{onlineappendix}{\bparticle@onlineappendixtrue}
 \DeclareOption{lineno}{\bparticle@linenotrue}
+\DeclareOption{acronymlist}{\bparticle@acronymlisttrue}
+\DeclareOption{noacronymlist}{\bparticle@acronymlistfalse}
+\DeclareOption{acronymlinks}{\bparticle@acronymlinkstrue}
+\DeclareOption{noacronymlinks}{\bparticle@acronymlinksfalse}
 
 % Pass unknown options to article class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -91,6 +97,12 @@
 
 \ifbparticle@lineno
     \PassOptionsToPackage{lineno}{bp-flags}
+\fi
+
+\ifbparticle@acronymlinks
+    \PassOptionsToPackage{acronymlinks}{bp-flags}
+\else
+    \PassOptionsToPackage{noacronymlinks}{bp-flags}
 \fi
 
 % Load packages (order matters: flags first, then colors, then features)
@@ -442,7 +454,9 @@
 % At end of document, auto-print the glossary (if the glossary option is set).
 \AtEndDocument{%
     \ifbparticle@glossary
-        \printglossary[type=\acronymtype, title=List of Acronyms]
+        \ifbparticle@acronymlist
+            \printglossary[type=\acronymtype, title=List of Acronyms]
+        \fi
     \fi
 }
 

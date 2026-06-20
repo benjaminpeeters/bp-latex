@@ -31,6 +31,11 @@
 \newif\ifbpbook@boxes      \bpbook@boxesfalse
 \newif\ifbpbook@preview    \bpbook@previewfalse
 \newif\ifbpbook@lineno     \bpbook@linenofalse
+% acronymlinks gates acronym hyperlinking (via bp-flags). acronymlist is accepted
+% for API parity with bp-article, but bp-book does not auto-print a "List of
+% Acronyms" -- a book document places \printglossary where it wants.
+\newif\ifbpbook@acronymlist \bpbook@acronymlisttrue
+\newif\ifbpbook@acronymlinks\bpbook@acronymlinkstrue
 
 % Font size (default 12pt)
 \newcommand{\bpbook@fontsize}{12pt}
@@ -52,6 +57,10 @@
 \DeclareOption{boxes}{\bpbook@boxestrue}
 \DeclareOption{preview}{\bpbook@previewtrue\bpbook@boxestrue\bpbook@glossaryfalse}
 \DeclareOption{lineno}{\bpbook@linenotrue}
+\DeclareOption{acronymlist}{\bpbook@acronymlisttrue}
+\DeclareOption{noacronymlist}{\bpbook@acronymlistfalse}
+\DeclareOption{acronymlinks}{\bpbook@acronymlinkstrue}
+\DeclareOption{noacronymlinks}{\bpbook@acronymlinksfalse}
 
 % Pass unknown options to book class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
@@ -91,6 +100,12 @@
 
 \ifbpbook@lineno
     \PassOptionsToPackage{lineno}{bp-flags}
+\fi
+
+\ifbpbook@acronymlinks
+    \PassOptionsToPackage{acronymlinks}{bp-flags}
+\else
+    \PassOptionsToPackage{noacronymlinks}{bp-flags}
 \fi
 
 % Load packages (order matters: flags first, then colors, then features)
