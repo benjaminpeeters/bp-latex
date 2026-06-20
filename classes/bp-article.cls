@@ -170,6 +170,136 @@
 \fi
 
 %=====================================================================
+% AUTHORS / AFFILIATIONS (Elsevier elsarticle-style interface)
+%=====================================================================
+% \author[afflabel,...]{Name\corref{c}\fnref{f}} ; \affiliation[label]{organization={...},
+% city={...}, country={...}} ; \ead{email} (for the preceding author) ;
+% \corref/\cortext (corresponding author) ; \fnref/\fntext (author notes) ;
+% \tnoteref/\tnotetext (title notes, e.g. acknowledgments). Author->affiliation
+% and ->note references resolve through the .aux file, so a clean build needs two
+% passes (latexmk does this). Ported/adapted from elsarticle.cls.
+
+\RequirePackage{keyval}
+
+% Forward references resolved via the aux file.
+\def\elsLabel#1{\@bsphack\protected@write\@auxout{}%
+    {\string\Newlabel{#1}{\@currentlabel}}\@esphack}
+\def\Newlabel#1#2{\expandafter\xdef\csname X@#1\endcsname{#2}}
+\def\elsRef#1{\@ifundefined{X@#1}{0}{\csname X@#1\endcsname}}
+
+% Title notes (e.g. acknowledgments) -> star marks.
+\let\@tnotes\@empty
+\newcounter{tnote}
+\def\tnotemark[#1]{\@for\mytmark:=#1\do{%
+    \expandafter\ifcase\elsRef{\mytmark}\or$^{\star}$\or$^{\star\star}$\fi}}
+\def\tnoteref#1{\tnotemark[{#1}]}
+\def\tnotetext[#1]#2{\g@addto@macro\@tnotes{%
+    \refstepcounter{tnote}\elsLabel{#1}%
+    \def\thefootnote{\ifcase\c@tnote\or$\star$\or$\star\star$\fi}%
+    \footnotetext{#2}}}
+
+% Unnumbered note (no mark).
+\let\@nonumnotes\@empty
+\def\nonumnote#1{\g@addto@macro\@nonumnotes{%
+    \let\thefootnote\relax\footnotetext{#1}}}
+
+% Author footnotes -> numbers.
+\newcounter{fnote}
+\def\fnmark[#1]{\let\bp@comma\@empty
+    \def\@fnmark{\@for\@@fnmark:=#1\do{%
+    \edef\fnotenum{\@ifundefined{X@\@@fnmark}{1}{\elsRef{\@@fnmark}}}%
+    \unskip\bp@comma\fnotenum\let\bp@comma,}}}
+\def\fnref#1{\fnmark[#1]}
+\let\@fnotes\@empty\let\@fnmark\@empty
+\def\fntext[#1]#2{\g@addto@macro\@fnotes{%
+    \refstepcounter{fnote}\elsLabel{#1}%
+    \def\thefootnote{\c@fnote}%
+    \global\setcounter{footnote}{\c@fnote}%
+    \footnotetext{#2}}}
+
+% Corresponding author -> asterisk.
+\let\@cornotes\@empty \let\@corref\@empty
+\newcounter{cnote}
+\def\cortext[#1]#2{\g@addto@macro\@cornotes{%
+    \refstepcounter{cnote}\elsLabel{#1}%
+    \def\thefootnote{\ifcase\thecnote\or$\ast$\or$\ast\ast$\fi}%
+    \footnotetext{#2}}}
+\def\corref#1{\edef\cnotenum{\elsRef{#1}}%
+    \edef\@corref{\ifcase\cnotenum\or$\ast$\or$\ast\ast$\fi\hskip-1pt}}
+
+\def\resetTitleCounters{\c@cnote=0 \c@fnote=0 \c@tnote=0 \c@footnote=0}
+
+% Email address(es). Each \ead follows the \author it belongs to; the email is
+% frozen into the note list immediately (no aux round-trip).
+\let\eadsep\@empty \def\@elseads{}
+\newcounter{ead}
+\gdef\ead#1{\stepcounter{ead}%
+    \g@addto@macro\@elseads{\eadsep{\ttfamily #1}\def\eadsep{\unskip,\space}}}
+
+% Authors.
+\def\elsauthors{}
+\let\authorsep\@empty \let\bp@sep\@empty
+\newcounter{author}
+\renewcommand\author{\@ifnextchar[{\@@author}{\@@authornoaff}}
+\def\@@author[#1]#2{%
+    \g@addto@macro\elsauthors{\normalsize\def\baselinestretch{1}\upshape%
+    \authorsep#2\unskip\textsuperscript{%
+        \@for\@@affmark:=#1\do{%
+            \edef\affnum{\@ifundefined{X@\@@affmark}{1}{\elsRef{\@@affmark}}}%
+            \unskip\bp@sep\affnum\let\bp@sep,}%
+        \ifx\@fnmark\@empty\else\unskip\bp@sep\@fnmark\let\bp@sep,\fi
+        \ifx\@corref\@empty\else\unskip\bp@sep\@corref\let\bp@sep,\fi}%
+    \def\authorsep{\unskip,\space}%
+    \global\let\bp@sep\@empty\global\let\@corref\@empty\global\let\@fnmark\@empty}}
+\def\@@authornoaff#1{%
+    \g@addto@macro\elsauthors{\normalsize\def\baselinestretch{1}\upshape%
+    \authorsep#1\unskip\textsuperscript{%
+        \ifx\@fnmark\@empty\else\unskip\bp@sep\@fnmark\let\bp@sep,\fi
+        \ifx\@corref\@empty\else\unskip\bp@sep\@corref\let\bp@sep,\fi}%
+    \def\authorsep{\unskip,\space}%
+    \global\let\@fnmark\@empty\global\let\@corref\@empty\global\let\bp@sep\@empty}}
+
+% Affiliations (leaner keyval subset of elsarticle's: organization, addressline,
+% city, postcode, state, country -- assembled comma-separated).
+\def\elsaddress{}
+\newcounter{affn}
+\renewcommand\theaffn{\arabic{affn}}
+\newcommand\bp@addaff[1]{%
+    \ifx\bp@affvalues\@empty
+        \def\bp@affvalues{#1}%
+    \else
+        \g@addto@macro\bp@affvalues{, #1}%
+    \fi}
+\define@key{bpaff}{organization}{\bp@addaff{#1}}
+\define@key{bpaff}{addressline}{\bp@addaff{#1}}
+\define@key{bpaff}{city}{\bp@addaff{#1}}
+\define@key{bpaff}{postcode}{\bp@addaff{#1}}
+\define@key{bpaff}{state}{\bp@addaff{#1}}
+\define@key{bpaff}{country}{\bp@addaff{#1}}
+\def\affiliation{\@ifnextchar[{\@@affiliation}{\@@affiliation[\@empty]}}
+\long\def\@@affiliation[#1]#2{%
+    \def\bp@affvalues{}%
+    \setkeys{bpaff}{#2}%
+    \g@addto@macro\elsaddress{%
+        \def\baselinestretch{1}%
+        \refstepcounter{affn}\xdef\@currentlabel{\theaffn}%
+        \elsLabel{#1}%
+        \textsuperscript{\theaffn}\space}%
+    \expandafter\g@addto@macro\expandafter\elsaddress\expandafter{\bp@affvalues}%
+    \g@addto@macro\elsaddress{\par}}
+
+% Emit the corresponding/footnote/title notes + emails as page-bottom footnotes.
+\def\printFirstPageNotes{%
+    \ifx\@tnotes\@empty\else\@tnotes\fi
+    \ifx\@nonumnotes\@empty\else\@nonumnotes\fi
+    \ifx\@cornotes\@empty\else\@cornotes\fi
+    \ifx\@elseads\@empty\else
+        \let\thefootnote\relax
+        \footnotetext{\ifnum\theead=1\relax\textit{Email address:\space}\else
+            \textit{Email addresses:\space}\fi\@elseads}\fi
+    \ifx\@fnotes\@empty\else\@fnotes\fi}
+
+%=====================================================================
 % TITLE PAGE
 %=====================================================================
 % Class-owned \maketitle: lays out title + authors + date + (main only)
@@ -217,10 +347,8 @@
         \thispagestyle{empty}%
         \setstretch{1}% single-spaced title page despite the doublespace default
         \ifbparticle@lineno\nolinenumbers\fi
-        % title-page footnotes (\thanks / author \footnote) use *, dagger, ...
-        \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
-        \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
-        \setcounter{footnote}{0}%
+        \resetTitleCounters
+        \ifblind\else\printFirstPageNotes\fi
         \null\vspace*{\stretch{\bp@titletopweight}}%
         \begin{center}%
             \ifonlineappendix
@@ -229,8 +357,15 @@
             \fi
             {\LARGE\bfseries \@title \par}%
             \vskip 1.5em
-            {\large \let\footnote\thanks
-                \begin{tabular}[t]{c}\@author\end{tabular}\par}%
+            \ifblind
+                {\large [Author information removed for blind review]\par}%
+            \else
+                {\normalsize \elsauthors \par}%
+                \ifx\elsaddress\@empty\else
+                    \vskip 0.5em
+                    {\footnotesize\itshape \elsaddress \par}%
+                \fi
+            \fi
             \vskip 1em
             {\large \@date \par}%
         \end{center}%
@@ -260,7 +395,6 @@
             \fi
         \fi
         \vspace*{\stretch{\bp@titlebotweight}}%
-        \@thanks
     \endgroup
     \clearpage
     \ifonlineappendix
@@ -273,9 +407,6 @@
         \renewcommand{\thefootnote}{\arabic{footnote}}%
     \fi
     \ifbparticle@lineno\linenumbers\fi
-    \global\let\@thanks\@empty
-    \global\let\thanks\relax
-    \global\let\and\relax
 }
 
 %=====================================================================
@@ -314,15 +445,5 @@
         \printglossary[type=\acronymtype, title=List of Acronyms]
     \fi
 }
-
-%=====================================================================
-% BLIND MODE (ANONYMOUS SUBMISSIONS)
-%=====================================================================
-
-\ifbparticle@blind
-    % Redefine \author to hide author info
-    \renewcommand{\author}[1]{\gdef\@author{[Author information removed for blind review]}}
-    % Can add more anonymization here
-\fi
 
 \endinput

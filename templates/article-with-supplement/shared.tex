@@ -7,10 +7,12 @@
 % METADATA
 %=====================================================================
 
-\author{
-    Your Name\footnote{Your Institution, Address. \\
-    E-mail: \href{mailto:your.email@example.com}{\nolinkurl{your.email@example.com}}}
-}
+% Authors: one \author per person, each tagged with affiliation label(s); the
+% corresponding author gets \corref + \ead. Elsevier elsarticle syntax.
+\author[1]{Your Name\corref{cor1}}
+\ead{your.email@example.com}
+\affiliation[1]{organization={Your Institution}, addressline={Address}, city={City}, country={Country}}
+\cortext[cor1]{Corresponding author}
 
 % Title (set ONCE; in onlineappendix mode the class prepends the supplement
 % label "Supplementary Material" automatically -- no \ifonlineappendix branch).
