@@ -59,13 +59,13 @@ for file in "$SCRIPT_DIR/internal/"*.sty; do
 done
 
 # Glossary entries: symlink the central bp-library glossary into texmf so real
-# documents resolve \loadglsentries{bp-glossary-entries}. Package example
+# documents resolve \loadglsentries{glossary-entries}. Package example
 # templates instead ship their own local example-glossary.tex.
 echo "Linking glossary entries..."
-GLOSSARY="$HOME/MEGA/repo/latex/bp-library/bp-glossary-entries.tex"
+GLOSSARY="$HOME/MEGA/repo/latex/bp-library/glossary-entries.tex"
 if [ -f "$GLOSSARY" ]; then
     ln -sf "$GLOSSARY" "$TEXMF/tex/latex/bp/"
-    echo "  - bp-glossary-entries.tex (from bp-library)"
+    echo "  - glossary-entries.tex (from bp-library)"
 else
     echo "  - skipped (bp-library not found; real docs need it)"
 fi
