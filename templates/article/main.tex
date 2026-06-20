@@ -24,29 +24,28 @@
 \begin{document}
 
 %=====================================================================
-% TITLE AND AUTHOR
+% TITLE, AUTHOR, ABSTRACT, KEYWORDS
 %=====================================================================
+% Abstract + keyword/JEL are captured by the class and laid out on the title
+% page, so they must come BEFORE \maketitle. Keyword/JEL syntax follows
+% Elsevier elsarticle (entries separated by \sep, JEL codes after \JEL).
 
 \title{Your Paper Title}
 \author{Benjamin Peeters}
 \date{\today}
 
-\maketitle
-
-%=====================================================================
-% ABSTRACT
-%=====================================================================
-
 \begin{abstract}
-Your abstract goes here. This template uses the bp-article class which provides:
-\begin{itemize}
-    \item Automatic hyperlink coloring
-    \item Double spacing (configurable)
-    \item Glossary/acronym support
-    \item Todo notes in draft mode
-    \item Theorem environments
-\end{itemize}
+Your abstract goes here. This template uses the bp-article class, which provides
+automatic hyperlink coloring, configurable line spacing, glossary/acronym
+support, draft-mode todo notes, and theorem environments.
 \end{abstract}
+
+\begin{keyword}
+keyword one \sep keyword two \sep keyword three
+\JEL F00 \sep G00 \sep E00
+\end{keyword}
+
+\maketitle
 
 %=====================================================================
 % MAIN CONTENT

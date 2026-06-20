@@ -111,6 +111,9 @@
 
 \RequirePackage[margin=0.9in]{geometry}
 
+% environ: capture abstract/keyword environment bodies for the custom title page.
+\RequirePackage{environ}
+
 %=====================================================================
 % LINE SPACING
 %=====================================================================
@@ -167,6 +170,115 @@
 \fi
 
 %=====================================================================
+% TITLE PAGE
+%=====================================================================
+% Class-owned \maketitle: lays out title + authors + date + (main only)
+% abstract + keywords/JEL on ONE vertically balanced page, robust to varying
+% title/abstract length. Documents set \title ONCE (the supplement label is
+% prepended automatically) and supply metadata via the standard abstract
+% environment plus an Elsevier elsarticle-style keyword environment.
+
+% Supplement label: single source of truth (also used by the running header).
+\newcommand{\bp@supplementlabel}{Supplementary Material}
+\newcommand{\bpsupplementlabel}[1]{\renewcommand{\bp@supplementlabel}{#1}}
+
+% Capture the abstract + keyword bodies so \maketitle can place them. Both must
+% appear in the document BEFORE \maketitle.
+\newif\ifbp@hasabstract
+\newif\ifbp@haskeyword
+\newcommand{\bp@abstract}{}
+\newcommand{\bp@keyword}{}
+\RenewEnviron{abstract}{\global\let\bp@abstract\BODY\global\bp@hasabstracttrue}
+\NewEnviron{keyword}{\global\let\bp@keyword\BODY\global\bp@haskeywordtrue}
+
+% Render the captured keyword block in Elsevier elsarticle's style: italic
+% "Keywords:"/"JEL:" labels, \sep -> comma, single-spaced, raggedright.
+\newcommand{\bp@printkeywords}{%
+    \begingroup
+        \normalsize\normalfont\setstretch{1}\parskip\z@\raggedright
+        \def\sep{\unskip, }%
+        \def\MSC{\@ifnextchar[{\@bp@MSC}{\@bp@MSC[2000]}}%
+        \def\@bp@MSC[##1]{\par\leavevmode\hbox{\it ##1~MSC:\space}}%
+        \def\PACS{\par\leavevmode\hbox{\it PACS:\space}}%
+        \def\JEL{\par\leavevmode\hbox{\it JEL:\space}}%
+        \noindent\textit{Keywords: }\bp@keyword\par
+    \endgroup}
+
+% Title-page vertical-balance weights (top : mid : bottom stretch glue) and the
+% per-side abstract narrowing. Tunable.
+\newcommand{\bp@titletopweight}{1}
+\newcommand{\bp@titlemidweight}{1.4}
+\newcommand{\bp@titlebotweight}{1.8}
+\newlength{\bp@abstractindent}
+\setlength{\bp@abstractindent}{0.06\textwidth}
+
+\renewcommand{\maketitle}{%
+    \begingroup
+        \thispagestyle{empty}%
+        \setstretch{1}% single-spaced title page despite the doublespace default
+        \ifbparticle@lineno\nolinenumbers\fi
+        % title-page footnotes (\thanks / author \footnote) use *, dagger, ...
+        \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+        \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
+        \setcounter{footnote}{0}%
+        \null\vspace*{\stretch{\bp@titletopweight}}%
+        \begin{center}%
+            \ifonlineappendix
+                {\large\scshape \bp@supplementlabel\par}%
+                \vskip 1.2em
+            \fi
+            {\LARGE\bfseries \@title \par}%
+            \vskip 1.5em
+            {\large \let\footnote\thanks
+                \begin{tabular}[t]{c}\@author\end{tabular}\par}%
+            \vskip 1em
+            {\large \@date \par}%
+        \end{center}%
+        \ifbparticle@draft
+            \vskip 1.5em
+            \begin{center}\small
+                \fbox{\parbox{0.75\textwidth}{\centering
+                    \textsc{Draft Version} -- Generated: \today\ at \currenttime\\[0.2em]
+                    \footnotesize This document is a working draft and should not be circulated or cited.%
+                }}%
+            \end{center}%
+        \fi
+        \ifonlineappendix\else
+            \ifbp@hasabstract
+                \vspace*{\stretch{\bp@titlemidweight}}%
+                {\setstretch{1}\small
+                    \begin{center}\textbf{\abstractname}\end{center}%
+                    \vskip 0.3em
+                    \begingroup
+                        \leftskip\bp@abstractindent \rightskip\bp@abstractindent
+                        \noindent \bp@abstract \par
+                    \endgroup}%
+            \fi
+            \ifbp@haskeyword
+                \vskip 0.9em
+                \bp@printkeywords
+            \fi
+        \fi
+        \vspace*{\stretch{\bp@titlebotweight}}%
+        \@thanks
+    \endgroup
+    \clearpage
+    \ifonlineappendix
+        % supplement keeps roman numbering + section-prefixed footnotes from the
+        % onlineappendix \AtBeginDocument hook; only reset the footnote counter.
+        \setcounter{footnote}{0}%
+    \else
+        \setcounter{page}{1}%
+        \setcounter{footnote}{0}%
+        \renewcommand{\thefootnote}{\arabic{footnote}}%
+    \fi
+    \ifbparticle@lineno\linenumbers\fi
+    \global\let\@thanks\@empty
+    \global\let\thanks\relax
+    \global\let\and\relax
+}
+
+%=====================================================================
 % ONLINE APPENDIX MODE
 %=====================================================================
 
@@ -174,7 +286,7 @@
     \AtBeginDocument{%
         \pagestyle{fancy}
         \fancyhf{}
-        \fancyhead[R]{Supplement}
+        \fancyhead[R]{\bp@supplementlabel}
         \fancyfoot[C]{\thepage}
         \appendix
         \pagenumbering{roman}
@@ -211,28 +323,6 @@
     % Redefine \author to hide author info
     \renewcommand{\author}[1]{\gdef\@author{[Author information removed for blind review]}}
     % Can add more anonymization here
-\fi
-
-%=====================================================================
-% DRAFT MODE NOTICE
-%=====================================================================
-
-\ifbparticle@draft
-    \AtBeginDocument{%
-        \let\bp@oldmaketitle\maketitle
-        \renewcommand{\maketitle}{%
-            \bp@oldmaketitle
-            \begin{center}
-            \small
-            \fbox{\parbox{0.75\textwidth}{%
-                \centering
-                \textsc{Draft Version} -- Generated: \today\ at \currenttime\\[0.2em]
-                \footnotesize This document is a working draft and should not be circulated or cited.
-            }}
-            \end{center}
-            \vspace{0.5em}
-        }%
-    }
 \fi
 
 \endinput

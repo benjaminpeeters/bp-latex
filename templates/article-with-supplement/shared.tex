@@ -12,12 +12,9 @@
     E-mail: \href{mailto:your.email@example.com}{\nolinkurl{your.email@example.com}}}
 }
 
-% Title (conditional: different for supplement)
-\ifonlineappendix
-    \title{\vspace{-2cm}Online Supplement \\ Your Paper Title}
-\else
-    \title{\vspace{-1cm}Your Paper Title}
-\fi
+% Title (set ONCE; in onlineappendix mode the class prepends the supplement
+% label "Supplementary Material" automatically -- no \ifonlineappendix branch).
+\title{Your Paper Title}
 
 \date{\today}
 
@@ -25,42 +22,24 @@
 \newcommand*{\img}{img}
 
 %=====================================================================
-% TITLE AND ABSTRACT (main only)
+% ABSTRACT + KEYWORDS/JEL (main paper only; auto-skipped in the supplement)
 %=====================================================================
+% The class captures these and lays them out on one balanced title page, so
+% they must appear BEFORE \maketitle. Keyword/JEL syntax follows Elsevier
+% elsarticle: entries separated by \sep, JEL codes after \JEL.
 
-\ifonlineappendix
-    \maketitle
-\else
-    \maketitle
+\begin{abstract}
+\noindent
+Your abstract goes here. Summarize the research question, methodology,
+main findings, and contribution. Keep it concise (150-250 words typically).
+\end{abstract}
 
-    {
-    \onehalfspacing
+\begin{keyword}
+keyword one \sep keyword two \sep keyword three
+\JEL F00 \sep G00 \sep E00
+\end{keyword}
 
-    \begin{abstract}
-    \noindent
-    Your abstract goes here. Summarize the research question, methodology,
-    main findings, and contribution. Keep it concise (150-250 words typically).
-    \end{abstract}
-
-    \vspace{1em}
-
-    \medskip
-    \noindent \textit{JEL classification}: F00, G00, E00
-
-    \vspace{1em}
-
-    \medskip
-    \noindent \textbf{Keywords}: keyword one, keyword two, keyword three
-
-    }
-
-    \thispagestyle{empty}
-    \clearpage
-    \setcounter{footnote}{0}
-    \renewcommand{\thefootnote}{\arabic{footnote}}
-    \setcounter{page}{1}
-    \newpage
-\fi
+\maketitle
 
 %=====================================================================
 % BACKMATTER
