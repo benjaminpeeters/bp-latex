@@ -1,0 +1,104 @@
+%% bp-tikz-timeline.sty
+%% Timeline family layer for bp-tikz: event node styles + \drawTimeline / \drawLegend.
+%% Ported from the original img/tikz/timeline.cls; colors mapped to the bp palette.
+%%
+%% Configuration is via \def; override per figure AFTER \documentclass, e.g.
+%%   \def\startYear{1974} \def\endYear{1983} \def\unitsPerYear{4} \def\timeStep{1}
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-tikz-timeline}[2025/01/01 bp-tikz timeline layer]
+
+\usetikzlibrary{shapes.geometric}
+
+% Default configuration parameters (override per figure)
+\def\startYear{1979}
+\def\endYear{1992}
+\def\unitsPerYear{2}
+\def\timeStep{3}          % step between year markers
+\def\nodeLineSpacing{1.1} % line-spacing multiplier for multi-line node text
+\def\legendSpacing{3}     % spacing between legend items
+
+% Year -> x-coordinate (centers the timeline on x=0)
+\newcommand{\x}[1]{(#1-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}
+
+% Semantic event colors, from the bp palette
+\colorlet{col_trigger}{bporange}
+\colorlet{col_event}{bpblue}
+\colorlet{col_superstructure}{bpgreen}
+\colorlet{col_crisis}{bpred}
+\colorlet{col_political}{bppurple}
+
+% Event-type styles (adaptive to content, configurable line spacing)
+\tikzset{
+    trigger/.style={
+        regular polygon, regular polygon sides=6, align=center,
+        draw=col_trigger!40, fill=col_trigger!20,
+        line width=0.8pt, inner sep=-8pt, rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    economic/.style={
+        ellipse, align=center,
+        draw=col_event!40, fill=col_event!20,
+        line width=0.8pt, inner sep=3pt, rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    superstructure/.style={
+        rectangle, align=center,
+        draw=col_superstructure!40, fill=col_superstructure!20,
+        line width=0.8pt, inner sep=3pt, rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    political/.style={
+        rectangle, align=center,
+        draw=col_political!40, fill=col_political!20,
+        line width=0.8pt, inner sep=3pt, rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    crisis/.style={
+        star, star points=7, align=center,
+        draw=col_crisis!40, fill=col_crisis!15,
+        line width=0.8pt, inner sep=-6pt, rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    }
+}
+
+% `event` is an alias for `economic` (some figures use that name).
+\tikzset{event/.style={economic}}
+
+% Draw the timeline axis + year markers
+\newcommand{\drawTimeline}{%
+    \pgfmathsetmacro{\timelineStart}{(\startYear-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}%
+    \pgfmathsetmacro{\timelineEnd}{(\endYear-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}%
+    \draw[gray,thick] (\timelineStart,0) -- (\timelineEnd,0);
+    \foreach \year in {\startYear,\the\numexpr\startYear+\timeStep\relax,...,\endYear} {
+        \draw[gray] ({\x{\year}},-0.2) -- ({\x{\year}},0.2);
+        \node[below,font=\tiny] at ({\x{\year}},-0.3) {\year};
+    }
+    \pgfmathtruncatemacro{\lastRegularYear}{\startYear + \timeStep*floor((\endYear-\startYear)/\timeStep)}%
+    \ifnum\lastRegularYear<\endYear
+        \draw[gray] ({\x{\endYear}},-0.2) -- ({\x{\endYear}},0.2);
+        \node[below,font=\tiny] at ({\x{\endYear}},-0.3) {\endYear};
+    \fi
+}
+
+% Draw the event-type + arrow-type legend below the timeline
+\newcommand{\drawLegend}{%
+    \begin{scope}[shift={(0,-2)}]
+        \node[trigger, minimum height=0.4cm, inner sep=-3] at ({-2*\legendSpacing},0) {\scriptsize Triggers};
+        \node[economic, minimum height=0.4cm] at ({-1*\legendSpacing},0) {\scriptsize Economic\\ \scriptsize Condition};
+        \node[superstructure, minimum height=0.4cm] at (0,0) {\scriptsize Policy \& Mindset\\ \scriptsize Changes};
+        \node[political, minimum height=0.4cm] at ({\legendSpacing},0) {\scriptsize Political\\ \scriptsize Events};
+        \node[crisis, minimum height=0.4cm, inner sep=-2] at ({2*\legendSpacing},0) {\scriptsize Crises};
+        \draw[->, thick, color=col_trigger] ({-2.5*\legendSpacing},-.9) -- ({-1.8*\legendSpacing},-.9);
+        \node[anchor=west, font=\scriptsize] at ({-1.7*\legendSpacing},-.9) {External Causation};
+        \draw[->, thick, color=col_event] ({-0.5*\legendSpacing},-.9) -- ({0.2*\legendSpacing},-.9);
+        \node[anchor=west, font=\scriptsize] at ({0.3*\legendSpacing},-.9) {Financial Transmission};
+        \draw[->, thick, color=col_superstructure] ({1.5*\legendSpacing},-.9) -- ({2.2*\legendSpacing},-.9);
+        \node[anchor=west, font=\scriptsize] at ({2.3*\legendSpacing},-.9) {Policy Impact};
+    \end{scope}
+}
+
+\endinput

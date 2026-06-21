@@ -1,0 +1,18 @@
+%% bp-tikz-schematic.sty
+%% Schematic family layer for bp-tikz: shared box/flowchart node styles.
+%% The base class already loads patterns/patterns.meta/positioning/calc and \bs
+%% (from bp-math); figure-specific node styles stay inline in each figure.
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-tikz-schematic}[2025/01/01 bp-tikz schematic layer]
+
+\tikzset{
+    my node/.style={rectangle, draw, align=center, inner sep=3pt},
+    my striped node/.style={rectangle, draw, align=center, inner sep=3pt,
+        pattern={Lines[angle=-45, distance=3mm, line width=1mm]}, pattern color=bplightgray}
+}
+
+\endinput

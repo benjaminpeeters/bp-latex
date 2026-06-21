@@ -1,0 +1,69 @@
+%% bp-tikz-mindmap.sty
+%% Mindmap family layer for bp-tikz: varwidth text-box nodes + comment/list styles.
+%% Ported from the dutch-republic mindmap figure.
+%%
+%% Provides a `maximum text width` key (auto-sizing node text up to a width, via
+%% varwidth) plus `comment` / `list` node styles and tunable arrow/text lengths.
+%%
+%% Copyright (c) 2025 Benjamin Peeters
+%% Licensed under MIT
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bp-tikz-mindmap}[2025/01/01 bp-tikz mindmap layer]
+
+\usetikzlibrary{automata}
+\RequirePackage{varwidth}
+\RequirePackage[none]{hyphenat}
+
+% Tunable lengths (override per figure)
+\newcommand{\lengtharrow}{1.5mm}
+\newcommand{\widtharrow}{1.9mm}
+\newcommand{\widthtext}{6.5em}
+\newcommand{\nodedistance}{4.5em}
+
+% `maximum text width=<dim>`: size node text up to <dim> using varwidth (text width
+% still overrides it). Lets node boxes shrink to their content.
+\newif\iftikz@maximum@text@width@hook@installed \tikz@maximum@text@width@hook@installedfalse
+\let\tikz@text@width@backup\pgfutil@empty
+\let\tikz@maximum@text@width@value\pgfutil@empty
+\pgfkeys{%
+    /tikz/maximum text width/.code={%
+        \def\tikz@maximum@text@width@value{#1}%
+        \ifx\tikz@maximum@text@width@value\pgfutil@empty
+            \ifx\tikz@text@width\pgfutil@empty
+                \let\tikz@text@width\tikz@text@width@backup
+            \fi
+        \else
+            \iftikz@maximum@text@width@hook@installed\else
+                \ifx\tikz@text@width@backup\pgfutil@empty
+                    \let\tikz@text@width@backup\tikz@text@width
+                \fi
+                \pgfkeysalso{
+                    execute at begin node={%
+                        \ifx\tikz@maximum@text@width@value\pgfutil@empty\else
+                            \ifx\tikz@text@width\pgfutil@empty
+                                \begin{varwidth}{\tikz@maximum@text@width@value}%
+                                \leavevmode\begingroup
+                            \fi%
+                        \fi%
+                    },%
+                    execute at end node={%
+                        \ifx\tikz@maximum@text@width@value\pgfutil@empty\else
+                            \ifx\tikz@text@width\pgfutil@empty
+                                \endgroup\end{varwidth}%
+                            \fi%
+                        \fi%
+                    },%
+                }%
+                \tikz@maximum@text@width@hook@installedtrue
+            \fi%
+            \pgfkeysalso{/tikz/text width={}}%
+        \fi
+    },
+}
+
+% Node styles for explanatory boxes
+\tikzset{comment/.style = {text=black!80, text width=\widthtext, text centered, draw=white, fill=white, node distance=0.0em, font=\tiny}}
+\tikzset{list/.style = {text=black!80, text width=\widthtext*2.5, draw=white, fill=white, node distance=\nodedistance, font=\small}}
+
+\endinput
